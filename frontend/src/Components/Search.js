@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Scroll from './Scroll';
 import SearchList from './SearchList';
 import TicketList from './TicketList';
+import '../styles/Search.css'
 
 function Search() {
 
@@ -53,13 +54,11 @@ function Search() {
     };
     return (
       <section className="Search">
-        <div className="SearchInput">
-            <div className="SearchLabel">
-                <h2>Keressé</h2>
-            </div>
-            <div className="SearchInputField">
-                <input type="search" placeholder="írjá" onChange={handleChange}></input>
-            </div>
+        <div className="SearchContainer">
+            <p className="SearchLabel">
+                Search title if needed
+            </p>
+                <input className='SearchInput' type='text' placeholder="Type CVE, LPS, or LPE..." onChange={handleChange}></input>
         </div>
         {searchResults()}
        
