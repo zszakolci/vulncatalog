@@ -57,3 +57,9 @@ body {
     background-position: 100% center;
     background-color: #FFFFFF;
   }
+
+  .results{
+    overflow-Y: 'scroll';
+     height:'40vh';
+    padding-top: 50px;
+  }

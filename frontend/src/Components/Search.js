@@ -41,13 +41,13 @@ function Search() {
     {
         return(
             <div className="SearchResult">
-
-            <Scroll>
+ß
+            <div className='results'>
                 { <SearchList filteredCatalog={filteredCatalog} /> }
-            </Scroll>
-            <Scroll>
+            </div>
+            <div className='results'>
                 { <TicketList filteredCatalog={filteredTickets} /> }
-            </Scroll>
+            </div>
             </div>
         );
 
