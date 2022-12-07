@@ -16,26 +16,29 @@ function Search() {
             setFilteredTickets([]);
         }
         else{
-        setLoading(true);
-        fetch('http://localhost:8080/search?input='+ searchField)
-           .then((response) => response.json())
-           .then((data) => {
-              if(data[0] != null)
-                setFilteredCatalog(data[0]);
-              if(data[1] != null)
-                setFilteredTickets(data[1]);
-           })
-           .catch((err) => {
-              console.log(err.message);
-           });
-        setLoading(false);
+            const timer = setTimeout(() => {
+                setLoading(true);
+                fetch('http://localhost:8080/search?input='+ searchField)
+                   .then((response) => response.json())
+                   .then((data) => {
+                      if(data[0] != null)
+                        setFilteredCatalog(data[0]);
+                      if(data[1] != null)
+                        setFilteredTickets(data[1]);
+                   })
+                   .catch((err) => {
+                      console.log(err.message);
+                   });
+                setLoading(false);
+            }, 700);
+            return () => clearTimeout(timer);
         }
+        
      }, [searchField]);
 
 
     const handleChange = e =>
     {
-        console.log("eztet írtad:" + e.target.value );
         const lowerCase = e.target.value.toLowerCase();
         // todo: sanitize input
         setSearchField(lowerCase);
@@ -63,7 +66,7 @@ function Search() {
       <section className="Search">
         <div className="SearchContainer">
             <p className="SearchLabel">
-                Search title if needed
+                Let's see if we can find something ;)
             </p>
                 <input className='SearchInput' type='text' placeholder="Type CVE, LPS, or LPE..." onChange={handleChange}></input>
         </div>
