@@ -2,10 +2,12 @@ package com.liferay.vulncatalog.restservice;
 
 import com.liferay.vulncatalog.persistence.entity.Ticket;
 import com.liferay.vulncatalog.persistence.entity.Vulnerability;
+import com.liferay.vulncatalog.persistence.repositories.TicketRepository;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class SearchController {
+
+	@Autowired
+	public SearchController(TicketRepository ticketRepository){
+		_ticketRepository = ticketRepository;
+	}
 
 	@GetMapping("/search")
 	public List<Object> search(
@@ -40,6 +47,12 @@ public class SearchController {
 		result.add(vulnerabilities);
 		result.add(tickets);
 
+		Ticket ticket = _ticketRepository.findById(1);
+		System.out.println(ticket);
+		System.out.println(ticket.getVulnerabilityid());
+
 		return result;
 	}
+
+	private TicketRepository _ticketRepository;
 }
