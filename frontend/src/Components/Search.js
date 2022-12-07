@@ -48,7 +48,7 @@ function Search() {
     
         return(
             <div className="SearchResult">
-ß
+
             <div className='results' hidden={hiddenCatalog}>
                 { <SearchList filteredCatalog={filteredCatalog} /> }
             </div>
