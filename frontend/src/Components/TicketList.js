@@ -5,7 +5,7 @@ import '../styles/ticketResults.scss'
 function TicketList({ filteredCatalog }) {
  
   const ticketRefs = filteredCatalog.map(ticketRef =>  <TicketRef key={ticketRef.id} ticketRef={ticketRef} />);
-  console.log(ticketRefs);
+
   return (
     <div className='ticket-container'>
         <h2>Related Tickets</h2>
