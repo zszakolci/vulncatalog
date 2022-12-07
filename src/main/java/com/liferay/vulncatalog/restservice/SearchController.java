@@ -48,8 +48,10 @@ public class SearchController {
 		result.add(tickets);
 
 		Ticket ticket = _ticketRepository.findById(1);
-		System.out.println(ticket);
-		System.out.println(ticket.getVulnerabilityid());
+		if (ticket != null) {
+			System.out.println(ticket);
+			System.out.println(ticket.getVulnerabilityid());
+		}
 
 		return result;
 	}
