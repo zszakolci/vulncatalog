@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Scroll from './Scroll';
 import SearchList from './SearchList';
 import TicketList from './TicketList';
 import '../styles/Search.css'
@@ -12,6 +11,11 @@ function Search() {
     const  [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        if(searchField === ''){
+            setFilteredCatalog([]);
+            setFilteredTickets([]);
+        }
+        else{
         setLoading(true);
         fetch('http://localhost:8080/search?input='+ searchField)
            .then((response) => response.json())
@@ -25,6 +29,7 @@ function Search() {
               console.log(err.message);
            });
         setLoading(false);
+        }
      }, [searchField]);
 
 
@@ -39,13 +44,15 @@ function Search() {
 
     function searchResults()
     {
+        const hiddenCatalog = searchField === '';
+    
         return(
             <div className="SearchResult">
 ß
-            <div className='results'>
+            <div className='results' hidden={hiddenCatalog}>
                 { <SearchList filteredCatalog={filteredCatalog} /> }
             </div>
-            <div className='results'>
+            <div className='results' hidden={hiddenCatalog}>
                 { <TicketList filteredCatalog={filteredTickets} /> }
             </div>
             </div>
