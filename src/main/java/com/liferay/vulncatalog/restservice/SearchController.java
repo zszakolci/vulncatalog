@@ -1,6 +1,7 @@
 package com.liferay.vulncatalog.restservice;
 
 import com.liferay.vulncatalog.persistence.entity.Ticket;
+import com.liferay.vulncatalog.persistence.entity.TicketVulnerabilityView;
 import com.liferay.vulncatalog.persistence.entity.Vulnerability;
 import com.liferay.vulncatalog.persistence.repositories.TicketRepository;
 
@@ -23,37 +24,22 @@ public class SearchController {
 	}
 
 	@GetMapping("/search")
-	public List<Object> search(
+	public List<TicketVulnerabilityView> search(
 		@RequestParam(value = "input", defaultValue = "") String input) {
 
-		List<Vulnerability> vulnerabilities = new LinkedList();
+		List<TicketVulnerabilityView> tvs = new LinkedList();
 
-		vulnerabilities.add(new Vulnerability("CVE-2021-33813",
-			"https://nvd.nist.gov/vuln/detail/CVE-2021-33813", ""));
-		vulnerabilities.add(new Vulnerability("CVE-2021-30468",
-			"https://nvd.nist.gov/vuln/detail/CVE-2021-30468", ""));
+		tvs.add(new TicketVulnerabilityView(1, "LPS-00001", "LPE-0001", "LSV-001", "CVE-2021-33813", 1, "7.2.10", "7.2.x", "https://nvd.nist.gov/vuln/detail/CVE-2021-33813", ""));
+		tvs.add(new TicketVulnerabilityView(2, "LPS-00002", "LPE-0002", "LSV-002", "CVE-2021-30468", 2, "7.3.10", "7.3.x", "https://nvd.nist.gov/vuln/detail/CVE-2021-30468", "This is a description."));
 
-		List<Ticket> tickets = new LinkedList();
-
-		Ticket ticket1 = new Ticket("LPS-00001", "LPE-0001", "CVE-2021-33813", 1, "7.2.10", "7.2.x");
-		ticket1.setId(1);
-		tickets.add(ticket1);
-		Ticket ticket2 = new Ticket("LPS-00002", "LPE-0002", "CVE-2021-30468", 2, "7.3.10", "7.3.x");
-		ticket2.setId(2);
-		tickets.add(ticket2);
-
-		List<Object> result = new LinkedList();
-
-		result.add(vulnerabilities);
-		result.add(tickets);
-
+/*
 		Ticket ticket = _ticketRepository.findById(1);
 		if (ticket != null) {
 			System.out.println(ticket);
 			System.out.println(ticket.getVulnerabilityid());
 		}
-
-		return result;
+*/
+		return tvs;
 	}
 
 	private TicketRepository _ticketRepository;
