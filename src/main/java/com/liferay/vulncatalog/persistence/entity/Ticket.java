@@ -13,6 +13,7 @@ public class Ticket {
 	private Integer id;
 	private String ticketId;
 	private String lpeId;
+	private String lsvId;
 	private String vulnerabilityId;
 	private Integer libraryId;
 	private String affectedVersion;
@@ -26,6 +27,7 @@ public class Ticket {
 
 		this.ticketId = ticketId;
 		this.lpeId = lpeId;
+		this.lsvId = lsvId;
 		this.vulnerabilityId = vulnerabilityId;
 		this.libraryId = libraryId;
 		this.affectedVersion = affectedVersion;
@@ -48,12 +50,20 @@ public class Ticket {
 		this.ticketId = ticketId;
 	}
 
-	public String getLpeid() {
+	public String getLpeId() {
 		return lpeId;
 	}
 
-	public void setLpeid(String lpeId) {
+	public void setLpeId(String lpeId) {
 		this.lpeId = lpeId;
+	}
+
+	public String getLsvId() {
+		return lsvId;
+	}
+
+	public void setLsvId(String lsvId) {
+		this.lsvId = lsvId;
 	}
 
 	public String getVulnerabilityid() {
