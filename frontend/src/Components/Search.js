@@ -7,13 +7,12 @@ function Search() {
 
     const [searchField, setSearchField] = useState("");
     const [filteredCatalog, setFilteredCatalog] = useState([]);
-    const [filteredTickets, setFilteredTickets] = useState([]);
     const  [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if(searchField === ''){
             setFilteredCatalog([]);
-            setFilteredTickets([]);
+
         }
         else{
             const timer = setTimeout(() => {
@@ -21,10 +20,8 @@ function Search() {
                 fetch('http://localhost:8080/search?input='+ searchField)
                    .then((response) => response.json())
                    .then((data) => {
-                      if(data[0] != null)
-                        setFilteredCatalog(data[0]);
-                      if(data[1] != null)
-                        setFilteredTickets(data[1]);
+                      if(data.length !== 0)
+                        setFilteredCatalog(data);
                    })
                    .catch((err) => {
                       console.log(err.message);
@@ -54,9 +51,6 @@ function Search() {
 
             <div className='results' hidden={hiddenCatalog}>
                 { <SearchList filteredCatalog={filteredCatalog} /> }
-            </div>
-            <div className='results' hidden={hiddenCatalog}>
-                { <TicketList filteredCatalog={filteredTickets} /> }
             </div>
             </div>
         );
