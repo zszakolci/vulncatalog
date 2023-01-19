@@ -22,8 +22,9 @@ public class Ticket {
 	public Ticket() {
 	}
 
-	public Ticket(String ticketId, String lpeId, String vulnerabilityId,
-		Integer libraryId, String affectedVersion, String fixedVersion) {
+	public Ticket(String ticketId, String lpeId, String lsvId,
+		String vulnerabilityId, Integer libraryId, String affectedVersion,
+		String fixedVersion) {
 
 		this.ticketId = ticketId;
 		this.lpeId = lpeId;
