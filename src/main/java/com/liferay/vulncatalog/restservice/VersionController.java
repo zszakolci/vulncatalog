@@ -24,8 +24,9 @@ public class VersionController {
 	private VersionRepository versionRepository;
 
 	@GetMapping("/get-all")
-	public List<Version> getAll() {
-		return versionRepository.findAll();
+	public List<String> getAll() {
+		return versionRepository.findAll().stream().map(
+			version -> version.getId()).collect(Collectors.toList());
 	}
 
 	@GetMapping("/search")
