@@ -1,10 +1,13 @@
 package com.liferay.vulncatalog.restservice;
 
 import com.liferay.vulncatalog.persistence.entity.Ticket;
+import com.liferay.vulncatalog.persistence.repositories.TicketRepository;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("ticket")
 public class TicketController {
+
+	@Autowired
+	TicketRepository ticketRepository;
 
 	@GetMapping("/add")
 	public void add(@RequestParam(value = "ticketId") String ticketId,
@@ -30,14 +36,22 @@ public class TicketController {
 
 	@GetMapping("/get-all")
 	public List<Ticket> getAll() {
-		return new LinkedList<Ticket>();
+		return ticketRepository.findAll();
 	}
 
 	@GetMapping("/search")
-	public List<Ticket> search(
-		@RequestParam(value = "keyword", defaultValue = "") String keyword) {
+	public List<String> search(
+		@RequestParam(value = "keyword") String keyword) {
 
-		return new LinkedList<Ticket>();
+		if (keyword == null || keyword == "") {
+			return new LinkedList<String>();
+		}
+
+		List<Ticket> tickets =
+			ticketRepository.findByTicketIdContainingIgnoreCase(keyword);
+
+		return tickets.stream().map(ticket -> ticket.getTicketId()).collect(
+			Collectors.toList());
 	}
 }
 

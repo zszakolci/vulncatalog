@@ -10,5 +10,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
 	List<Ticket> findByTicketId(String ticketId);
 
+	List<Ticket> findByTicketIdContainingIgnoreCase(String ticketName);
+
 	Ticket findById(int id);
 }

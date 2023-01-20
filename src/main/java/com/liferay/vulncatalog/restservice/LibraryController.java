@@ -1,10 +1,14 @@
 package com.liferay.vulncatalog.restservice;
 
 import com.liferay.vulncatalog.persistence.entity.Library;
+import com.liferay.vulncatalog.persistence.entity.Ticket;
+import com.liferay.vulncatalog.persistence.repositories.LibraryRepository;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("library")
 public class LibraryController {
 
+	@Autowired
+	LibraryRepository libraryRepository;
+
 	@GetMapping("/add")
 	public void add(@RequestParam(value = "name") String name) {
 		System.out.println(name);
@@ -23,13 +30,21 @@ public class LibraryController {
 
 	@GetMapping("/get-all")
 	public List<Library> getAll() {
-		return new LinkedList<Library>();
+		return libraryRepository.findAll();
 	}
 
 	@GetMapping("/search")
-	public List<Library> search(
-		@RequestParam(value = "keyword", defaultValue = "") String keyword) {
+	public List<String> search(
+		@RequestParam(value = "keyword") String keyword) {
 
-		return new LinkedList<Library>();
+		if (keyword == null || keyword == "") {
+			return new LinkedList<String>();
+		}
+
+		List<Library> libraries =
+			libraryRepository.findByNameContainingIgnoreCase(keyword);
+
+		return libraries.stream().map(library -> library.getName()).collect(
+			Collectors.toList());
 	}
 }
