@@ -1,5 +1,6 @@
 package com.liferay.vulncatalog.persistence.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,12 +12,19 @@ public class Ticket {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
+	@Column(name = "ticketId")
 	private String ticketId;
+	@Column(name = "lpeId")
 	private String lpeId;
+	@Column(name = "lsvId")
 	private String lsvId;
+	@Column(name = "vulnerabilityId")
 	private String vulnerabilityId;
+	@Column(name = "libraryId")
 	private Integer libraryId;
+	@Column(name = "affectedVersion")
 	private String affectedVersion;
+	@Column(name = "fixedVersion")
 	private String fixedVersion;
 
 	public Ticket() {
@@ -43,11 +51,11 @@ public class Ticket {
 		this.id = id;
 	}
 
-	public String getTicketid() {
+	public String getTicketId() {
 		return ticketId;
 	}
 
-	public void setTicketid(String ticketId) {
+	public void setTicketId(String ticketId) {
 		this.ticketId = ticketId;
 	}
 
