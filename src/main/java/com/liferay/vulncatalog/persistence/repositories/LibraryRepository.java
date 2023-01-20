@@ -10,4 +10,6 @@ public interface LibraryRepository extends JpaRepository<Library, Long> {
 
 	List<Library> findByName(String name);
 
+	List<Library> findByNameContainingIgnoreCase(String name);
+
 }

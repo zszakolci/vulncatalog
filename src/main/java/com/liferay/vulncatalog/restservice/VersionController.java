@@ -1,10 +1,14 @@
 package com.liferay.vulncatalog.restservice;
 
+import com.liferay.vulncatalog.persistence.entity.Ticket;
 import com.liferay.vulncatalog.persistence.entity.Version;
+import com.liferay.vulncatalog.persistence.repositories.VersionRepository;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +20,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("version")
 public class VersionController {
 
+	@Autowired
+	private VersionRepository versionRepository;
+
 	@GetMapping("/get-all")
-	public List<Version> getAll() {
-		return new LinkedList<Version>();
+	public List<String> getAll() {
+		return versionRepository.findAll().stream().map(
+			version -> version.getId()).collect(Collectors.toList());
 	}
 
 	@GetMapping("/search")
-	public List<Version> search(
-		@RequestParam(value = "keyword", defaultValue = "") String keyword) {
+	public List<String> search(
+		@RequestParam(value = "keyword") String keyword) {
 
-		return new LinkedList<Version>();
+		if (keyword == null || keyword == "") {
+			return new LinkedList<String>();
+		}
+
+		List<Version> versions =
+			versionRepository.findByIdContainingIgnoreCase(keyword);
+
+		return versions.stream().map(version -> version.getId()).collect(
+			Collectors.toList());
 	}
 }
