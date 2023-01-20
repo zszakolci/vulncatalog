@@ -8,5 +8,6 @@ import com.liferay.vulncatalog.persistence.entity.Library;
 
 public interface LibraryRepository extends JpaRepository<Library, Long> {
 
-  List<Library> findByName(String name);
+	List<Library> findByName(String name);
+
 }
