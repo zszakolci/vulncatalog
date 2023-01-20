@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import SearchList from './SearchList';
-import TicketList from './TicketList';
 import '../styles/Search.css'
 
 function Search() {

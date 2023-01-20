@@ -1,9 +1,9 @@
 import './App.css';
-import Search from './Components/Search';
+import SearchPage from './pages/searchpage';
 
 function App() {
   return (
-    <Search/>
+    <SearchPage/>
   );
 }
 
