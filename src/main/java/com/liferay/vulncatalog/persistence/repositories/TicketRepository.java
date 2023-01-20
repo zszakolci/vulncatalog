@@ -8,7 +8,7 @@ import com.liferay.vulncatalog.persistence.entity.Ticket;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
-  List<Ticket> findByTicketId(String ticketId);
+	List<Ticket> findByTicketId(String ticketId);
 
-  Ticket findById(int id);
+	Ticket findById(int id);
 }
