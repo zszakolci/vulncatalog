@@ -1,0 +1,22 @@
+
+
+.headerBar{
+	  width: 100%;
+    margin:auto;
+    padding-left: 20px;
+    display:flex;
+    position:fixed;
+    border-bottom: 1px solid #e7e7e7;
+    background-color:#F6FCFC ;
+
+}
+
+
+
+.title{
+    margin-left: 50px;
+    flex-basis: 60%; 
+    margin: auto;
+    color:#080862
+}
+
