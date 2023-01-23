@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import styles from './addVulnForm.module.css'
 import useSWR from 'swr'
-import { useForm } from "react-hook-form";
-
+import { useForm,useController } from "react-hook-form";
 
 
 
@@ -16,19 +15,27 @@ function AddVulnForm(){
     const formRef = React.useRef(null);
      const fetcher = (...args) => fetch(...args).then(res => res.json());
      const [post,setPost] = useState(false);
-
+    const cveInputName="cve";
     const restURL = (CVEInput.current  && descriptionInput.current) ? `http://localhost:8080/vulnerability/add?id=${CVEInput.current.value}&url=${urlFieldValue}&description=${descriptionInput.current.value}`: "";
     const {data,error,isLoading} = useSWR( post ? restURL: null,fetcher); 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { handleSubmit, control } = useForm({
+        mode: "onTouched",
+        defaultValues: {
+            cveInputName: '',
+            url: ''
+          }
+    });
 
+   
     const constructURL = (cve) =>
     {
         return "https://nvd.nist.gov/vuln/detail/" + cve;
     }
 
-    const handleBlur = (e) =>
+    const handleCVEInputBlur = (e) =>
 {
-    const url = constructURL(e.target.value);
+    const inputText = e.target.value;
+    const url = inputText? constructURL(inputText): "";
     setUrlFieldValue(url);
 }
 
@@ -50,10 +57,11 @@ const handleFormSubmit = async (event) =>
         <div className={"box"} >
             <form ref={formRef} className={styles.addVulnForm } >
 
-                    <div  className={styles.listItem}><input name="cve" {...register('cve',{ required: true })}  onBlur={handleBlur} className="inputField" type="text" placeholder="CVE ID" /></div>
-                    {errors.cve && <div className="errorMessage">This field is required</div>}
-                    <div className={styles.URLContainer}><input {...register('url',{ required: true })} className={"inputField " + styles.URLItem} type="url" placeholder="URL" onChange={handleURLChange} value={urlFieldValue} /> </div>
-                    {errors.url && <div className="errorMessage">This field is required</div>}
+                    <div  className={styles.listItem}><input name={cveInputName} onBlur={handleCVEInputBlur}
+       className="inputField" type="text" placeholder="CVE ID" /></div>
+                    {/* {inputError[cveInputName] && <div className="errorMessage">This field is required</div>} */}
+                    <div className={styles.URLContainer}><input className={"inputField " + styles.URLItem} type="url" placeholder="URL" onChange={handleURLChange} value={urlFieldValue} /> </div>
+                    {/* {errors.url && <div className="errorMessage">This field is required</div>} */}
                     <div className={styles.listItem}><textarea ref={descriptionInput} className='textArea' placeholder="DESCRIPTION"/></div>
                 <Button onClick={handleSubmit(handleFormSubmit)} className={styles.addButton} variant="contained">
                     Add
