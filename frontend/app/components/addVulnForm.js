@@ -18,7 +18,7 @@ function AddVulnForm(){
     const cveInputName="cve";
     const restURL = (CVEInput.current  && descriptionInput.current) ? `http://localhost:8080/vulnerability/add?id=${CVEInput.current.value}&url=${urlFieldValue}&description=${descriptionInput.current.value}`: "";
     const {data,error,isLoading} = useSWR( post ? restURL: null,fetcher); 
-    const { handleSubmit, control } = useForm({
+    const { register, handleSubmit,formState: { errors }, control } = useForm({
         mode: "onTouched",
         defaultValues: {
             cveInputName: '',
@@ -48,7 +48,7 @@ const handleFormSubmit = async (event) =>
 {
     console.log("in handleSubmit");
     setPost(true);
-    event.preventDefault();
+    event.preventDefault;
     formRef.current.submit();
    
     
@@ -57,9 +57,9 @@ const handleFormSubmit = async (event) =>
         <div className={"box"} >
             <form ref={formRef} className={styles.addVulnForm } >
 
-                    <div  className={styles.listItem}><input name={cveInputName} onBlur={handleCVEInputBlur}
+                    <div  className={styles.listItem}><input name={cveInputName}{...register("id",{ required: true })} onBlur={handleCVEInputBlur}
        className="inputField" type="text" placeholder="CVE ID" /></div>
-                    {/* {inputError[cveInputName] && <div className="errorMessage">This field is required</div>} */}
+                     {errors.id && <div className="errorMessage">This field is required</div>} 
                     <div className={styles.URLContainer}><input className={"inputField " + styles.URLItem} type="url" placeholder="URL" onChange={handleURLChange} value={urlFieldValue} /> </div>
                     {/* {errors.url && <div className="errorMessage">This field is required</div>} */}
                     <div className={styles.listItem}><textarea ref={descriptionInput} className='textArea' placeholder="DESCRIPTION"/></div>
