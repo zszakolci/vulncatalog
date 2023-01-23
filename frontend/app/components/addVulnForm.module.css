@@ -1,0 +1,46 @@
+.inputList{
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.listItem{
+    padding: 10px 0;
+}
+
+.URLItem{
+   width: 100%;
+}
+
+.URLContainer{
+    width: 90%;
+}
+.addVulnForm{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content:space-around;
+    row-gap: 20px;
+}
+
+.textInput:hover{
+    padding: 12px 10px 12px 0px;
+    outline: 0;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #575756;
+    border-radius: 0;
+    background-position: 100% center;
+    background-color: #eef3ec;
+    box-shadow: none;
+}
+
+.addVulnFormContainer:hover{
+    background-color: #49d014;
+}
+
+.addButton{
+    margin-top:2em;
+   box-shadow:1px, 1px, blue;
+}
+

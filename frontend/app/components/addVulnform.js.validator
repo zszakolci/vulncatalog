@@ -1,0 +1,81 @@
+'use client'
+import { useForm } from "react-hook-form";
+import { Button } from '@mui/material';
+import styles from './addVulnForm.module.css'
+import useSWR from 'swr'
+
+function AddVulnForm() {
+const { register, handleSubmit, errors } = useForm();
+
+
+
+const [urlFieldValue, setUrlFieldValue] = React.useState('');
+const CVEInput = React.createRef();
+const descriptionInput = React.createRef();
+ const fetcher = (...args) => fetch(...args).then(res => res.json());
+ const [post,setPost] = useState(false);
+
+const restURL = (CVEInput.current  && descriptionInput.current) ? `http://localhost:8080/vulnerability/add?id=${CVEInput.current.value}&url=${urlFieldValue}&description=${descriptionInput.current.value}`: "";
+const {data,error,isLoading} = useSWR( post ? restURL: null); 
+
+
+const constructURL = (cve) =>
+{
+    return "https://nvd.nist.gov/vuln/detail/" + cve;
+}
+
+const fillUrl = (e) =>
+{
+const url = constructURL(e.target.value);
+setUrlFieldValue(url);
+}
+
+const handleURLChange = (e) =>
+{
+setUrlFieldValue(e.target.value);
+}
+
+
+
+return (
+<div className={"box"} >
+<form className={styles.addVulnForm} onSubmit={handleSubmit(handleFormSubmit)}>
+<div className={styles.listItem}>
+<input
+ref={register({ required: true })}
+name="cve"
+onBlur={fillUrl}
+className="inputField"
+type="text"
+placeholder="CVE ID"
+/>
+{errors.cve && <div className="errorMessage">This field is required</div>}
+</div>
+<div className={styles.URLContainer}>
+<input
+ref={register({ required: true })}
+name="url"
+className={"inputField " + styles.URLItem}
+type="url"
+placeholder="URL"
+onChange={handleURLChange}
+value={urlFieldValue}
+/>
+{errors.url && <div className="errorMessage">This field is required</div>}
+</div>
+<div className={styles.listItem}>
+<textarea 
+         ref={descriptionInput} 
+         className='textArea' 
+         placeholder="DESCRIPTION"
+       />
+</div>
+<Button type="submit" className={styles.addButton} variant="contained">
+Add
+</Button >
+</form>
+</div>
+);
+}
+
+export default AddVulnForm;

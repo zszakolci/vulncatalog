@@ -1,0 +1,27 @@
+.listItem{
+    padding: 15px 0;
+}
+.addButton{
+    margin-top:2em;
+}
+
+.libraryField{
+    width: 60%;
+}
+
+.libraryFieldContainer{
+    width: 100%;
+    padding: 15px 0;
+}
+
+.versionField{
+    width: 60%;
+}
+
+.linkButton{
+    float: right;
+}
+
+.comboBoxContainer{
+    margin-top: 1.5em;
+}
