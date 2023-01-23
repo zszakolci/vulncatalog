@@ -25,7 +25,9 @@ public class LibraryController {
 
 	@GetMapping("/add")
 	public void add(@RequestParam(value = "name") String name) {
-		System.out.println(name);
+		Library library = new Library(name);
+
+		libraryRepository.save(library);
 	}
 
 	@GetMapping("/get-all")

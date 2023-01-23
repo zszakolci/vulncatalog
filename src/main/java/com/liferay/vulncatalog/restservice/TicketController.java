@@ -31,7 +31,10 @@ public class TicketController {
 		@RequestParam(value = "affectedVersion") String affectedVersion,
 		@RequestParam(value = "fixedVersion") String fixedVersion) {
 
-		System.out.print(ticketId + " " + lpeId);
+		Ticket ticket = new Ticket(ticketId, lpeId, lsvId, vulnerabilityId, libraryId, affectedVersion, fixedVersion);
+
+		ticketRepository.save(ticket);
+		//System.out.print(ticketId + " " + lpeId);
 	}
 
 	@GetMapping("/get-all")
