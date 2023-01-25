@@ -27,11 +27,11 @@ public class TicketController {
 		@RequestParam(value = "lpeId") String lpeId,
 		@RequestParam(value = "lsvId") String lsvId,
 		@RequestParam(value = "vulnerabilityId") String vulnerabilityId,
-		@RequestParam(value = "libraryId") Integer libraryId,
+		@RequestParam(value = "library") String library,
 		@RequestParam(value = "affectedVersion") String affectedVersion,
 		@RequestParam(value = "fixedVersion") String fixedVersion) {
 
-		Ticket ticket = new Ticket(ticketId, lpeId, lsvId, vulnerabilityId, libraryId, affectedVersion, fixedVersion);
+		Ticket ticket = new Ticket(ticketId, lpeId, lsvId, vulnerabilityId, library, affectedVersion, fixedVersion);
 
 		ticketRepository.save(ticket);
 		//System.out.print(ticketId + " " + lpeId);

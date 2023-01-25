@@ -20,8 +20,8 @@ public class Ticket {
 	private String lsvId;
 	@Column(name = "vulnerabilityId")
 	private String vulnerabilityId;
-	@Column(name = "libraryId")
-	private Integer libraryId;
+	@Column(name = "library")
+	private String library;
 	@Column(name = "affectedVersion")
 	private String affectedVersion;
 	@Column(name = "fixedVersion")
@@ -31,14 +31,14 @@ public class Ticket {
 	}
 
 	public Ticket(String ticketId, String lpeId, String lsvId,
-		String vulnerabilityId, Integer libraryId, String affectedVersion,
+		String vulnerabilityId, String library, String affectedVersion,
 		String fixedVersion) {
 
 		this.ticketId = ticketId;
 		this.lpeId = lpeId;
 		this.lsvId = lsvId;
 		this.vulnerabilityId = vulnerabilityId;
-		this.libraryId = libraryId;
+		this.library = library;
 		this.affectedVersion = affectedVersion;
 		this.fixedVersion = fixedVersion;
 	}
@@ -83,12 +83,12 @@ public class Ticket {
 		this.vulnerabilityId = vulnerabilityId;
 	}
 
-	public Integer getLibraryid() {
-		return libraryId;
+	public String getLibrary() {
+		return library;
 	}
 
-	public void setLibraryid(Integer libraryId) {
-		this.libraryId = libraryId;
+	public void setLibrary(String library) {
+		this.library = library;
 	}
 
 	public String getAffectedversion() {
