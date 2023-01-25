@@ -75,11 +75,11 @@ public class Ticket {
 		this.lsvId = lsvId;
 	}
 
-	public String getVulnerabilityid() {
+	public String getVulnerabilityId() {
 		return vulnerabilityId;
 	}
 
-	public void setVulnerabilityid(String vulnerabilityId) {
+	public void setVulnerabilityId(String vulnerabilityId) {
 		this.vulnerabilityId = vulnerabilityId;
 	}
 
@@ -91,19 +91,19 @@ public class Ticket {
 		this.library = library;
 	}
 
-	public String getAffectedversion() {
+	public String getAffectedVersion() {
 		return affectedVersion;
 	}
 
-	public void setAffectedversion(String affectedVersion) {
+	public void setAffectedVersion(String affectedVersion) {
 		this.affectedVersion = affectedVersion;
 	}
 
-	public String getFixedversion() {
+	public String getFixedVersion() {
 		return fixedVersion;
 	}
 
-	public void setFixedversion(String fixedVersion) {
+	public void setFixedVersion(String fixedVersion) {
 		this.fixedVersion = fixedVersion;
 	}
 
