@@ -40,7 +40,16 @@
 }
 
 .addButton{
-    margin-top:2em;
    box-shadow:1px, 1px, blue;
 }
 
+.buttonContainer{
+    display: flex;
+    justify-content: flex-start;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    margin-top: 2em;
+    gap:2em;
+    flex-wrap:wrap;
+}

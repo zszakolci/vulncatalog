@@ -1,13 +1,23 @@
-import { Button } from '@mui/material';
+import { Alert, AlertTitle, Button } from '@mui/material';
 import styles from './addTicketForm.module.css'
 import CVESearch from './cveSearch'
-import LibrarySearch from './librarySearch';
+//import LibrarySearch from './librarySearch';
 import VersionSearch from './versionSearch';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { usePromiseTracker, trackPromise} from "react-promise-tracker";
+import SuccessMessage from './successMessage'
 
-export const ErrorContext = React.createContext();
+const ErrorContext = React.createContext([{}, () => {}]);
+/* const ErrorProvider = (props) => {
+    const [err, setErr] = useState({});
+    return (
+      <ErrorContext.Provider value={[err, setErr]}>
+        {props.children}
+      </ErrorContext.Provider>
+    );
+  } */
 
+  export { ErrorContext };
 
 function AddTicketForm(){
     const CVEIDInput = React.createRef();
@@ -19,19 +29,20 @@ function AddTicketForm(){
     const fixedInput = React.createRef();
     const [errorMessage, setErrorMessage] = useState("");
     const [submitError,setSubmitError] = useState(false);
+    const [ isAlertVisible, setIsAlertVisible ] = React.useState(false);
     //const fetcher = (...args) => fetch(...args).then(res => res.json());
     //const [post,setPost] = useState(false);
-    const [err, setErr] = useState(null);
-   
+    // const [err, setErr] = useState(null);
+    const [err, setErr] = useState({});
 
     //const {data,error,isLoading} = useSWR( post ? restURL: null); 
-   
+    console.log("szopás:" + err);
     const handleSubmit = async (event) =>
     {
         const restURL = 
         CVEIDInput.current && LPEInput.current && LSVInput.current && LPSInput.current
         && libraryInput.current && affectedInput.current && fixedInput.current
-        ?`http://localhost:8080/ticket/add?vulnerabilityId=${CVEIDInput.current.value}&lpeId=${LPEInput.current.value}&ticketId=${LPSInput.current.value}&lsvId=${LSVInput.current.value}&library=${libraryInput.current.value}&affectedversion=${affectedInput.current.value}&fixedversion=${fixedInput.current.value}`
+        ?`http://localhost:8080/ticket/add?vulnerabilityId=${CVEIDInput.current.value}&lpeId=${LPEInput.current.value}&ticketId=${LPSInput.current.value}&lsvId=${LSVInput.current.value}&library=${libraryInput.current.value}&affectedVersion=${affectedInput.current.value}&fixedVersion=${fixedInput.current.value}`
         : '';
         event.preventDefault(); 
         console.log("in handlesubmit");
@@ -55,35 +66,50 @@ function AddTicketForm(){
                 libraryInput.current.value = "";
                 affectedInput.current.value = "";
                 fixedInput.current.value = "";
+                setIsAlertVisible(true);
+                setTimeout(() => {
+                    setIsAlertVisible(false);
+                }, 3000);
                 //this.setState({ totalReactPackages: data.total })
             })
             .catch(error => {
                 setErrorMessage(error.toString());
                 setSubmitError(true);
-                console.error('There was an error!', error);
+                setSubmitSuccess(false);
             }));
         //setPost(true);
-        event.preventDefault;
+        //event.preventDefault();
         //formRef.current.submit();
          
     }
 
     return (
-        <ErrorContext.Provider value={{ err, setErr }}>
+        <ErrorContext.Provider value={[err, setErr]}>
         <div className='box'>
+                {err && <Alert variant="outlined" severity="error">
+                         <strong>{err ? err.toString() : ''}</strong>
+                    </Alert> }
                 <form className="addTicketForm">
-
-                   <CVESearch ref={CVEIDInput}/>
+                   
+                   <CVESearch ref={CVEIDInput} /* setErr={setErr} err={err} *//>
                     <div className={styles.listItem}><input ref={LPEInput} className="inputField" type="text" placeholder="LPE" /></div>
                     <div className={styles.listItem}><input ref={LSVInput} className="inputField" type="text" placeholder="LSV" /></div>
                     <div className={styles.listItem}><input ref={LPSInput} className="inputField" type="text" placeholder="LPS" /></div>
-                    <input ref={libraryInput} className="inputField" type="text" placeholder="Affected library"/>
+                    <div className={styles.libraryFieldContainer}><input ref={libraryInput} className={styles.libraryField + " inputField"} type="text" placeholder="Affected library"/></div>
                     <VersionSearch ref={affectedInput} label="Affects Version"/>
                     <VersionSearch ref={fixedInput} label="Fixed Version"/>
-                    
-                    <Button onClick={handleSubmit} className={styles.addButton} variant="contained">
+                    <div className={styles.buttonContainer}>
+                    <div><Button onClick={handleSubmit} className={styles.addButton} variant="contained">
                     Add
-                    </Button > 
+                    </Button > </div>
+                    {submitError && <div> <Alert className={styles.alert} variant="outlined" severity="error">
+                         <strong>Unable to Submit data. Try again later.</strong>
+                    </Alert></div>} 
+                    { isAlertVisible && <div> <Alert className={styles.alert} variant="outlined" severity="success">
+                         <strong>Ticket successfully added!</strong>
+                    </Alert></div>}
+                    </div>
+           
             </form>
         </div>
         </ErrorContext.Provider>

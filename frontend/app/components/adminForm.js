@@ -40,12 +40,12 @@ function AdminForm(){
             </div>
                 <div hidden={!vulnFormOpened}><AddVulnForm  /></div>
             </section>
-            <section  className={styles.addLibraryForm}>
+            {/* <section  className={styles.addLibraryForm}>
             <div className={styles.labelContainer}> <Button startIcon={<AddCircle/>} onClick={libraryLabelClicked}>
                 Add Library
              </Button></div>
                <div hidden={!libraryFormOpened}> <AddLibraryForm /></div>
-             </section>
+             </section> */}
             <section  className={styles.addTicketForm}>
             <div className={styles.labelContainer}> <Button startIcon={<AddCircle/>} onClick={ticketLabelClicked}>
                 Add a ticket

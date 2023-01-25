@@ -2,7 +2,7 @@
     margin:auto;
     display:flex;
     padding-top: 50px;
-    max-width: 90%;
+    max-width: 75%;
     justify-content:space-between;
     flex-wrap: wrap;
 }
@@ -18,19 +18,19 @@
 
 }
  .addVulnForm{
-    flex-basis: 35%;
+    flex-basis: 40%;
     margin-bottom:40px;
 
 }
 
-.addLibraryForm{
+/* .addLibraryForm{
     flex-basis:25%;
     margin-bottom:40px;
-}
+} */
 
 
 .addTicketForm{
-    flex-basis: 25%;
+    flex-basis: 35%;
     margin-bottom:40px;
 }
 

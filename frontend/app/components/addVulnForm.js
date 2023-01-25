@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { Button } from '@mui/material';
+import { Alert, Button } from '@mui/material';
 import styles from './addVulnForm.module.css'
 
 import { useForm,Controller } from "react-hook-form";
@@ -17,6 +17,7 @@ function AddVulnForm(){
     const [errorMessage, setErrorMessage] = useState("");
     const [submitError,setSubmitError] = useState(false);
     const { loading } = usePromiseTracker();
+    const [ isAlertVisible, setIsAlertVisible ] = React.useState(false);
     //const restURL = (CVEInput.current  && descriptionInput.current) ? `http://localhost:8080/vulnerability/add?id=${CVEInput.current.value}&url=${urlFieldValue}&description=${descriptionInput.current.value}`: "";
 
     //console.log(restURL);
@@ -69,12 +70,14 @@ const handleFormSubmit =  (event) =>
             CVEInput.current.value = "";
             descriptionInput.current.value = "";
             setUrlFieldValue("");
-            //this.setState({ totalReactPackages: data.total })
+            setIsAlertVisible(true);
+            setTimeout(() => {
+                setIsAlertVisible(false);
+            }, 3000);
         })
         .catch(error => {
             setErrorMessage(error.toString());
             setSubmitError(true);
-            console.error('There was an error!', error);
         }));
     //setPost(true);
     event.preventDefault;
@@ -121,9 +124,17 @@ const handleFormSubmit =  (event) =>
                     <div className={styles.URLContainer}><input className={"inputField " + styles.URLItem} type="url" placeholder="URL" onChange={handleURLChange} value={urlFieldValue} /> </div>
                     {/* {errors.url && <div className="errorMessage">This field is required</div>} */}
                     <div className={styles.listItem}><textarea ref={descriptionInput} className='textArea' placeholder="DESCRIPTION"/></div>
-                <Button onClick={handleFormSubmit} className={styles.addButton} variant="contained">
+                    <div className={styles.buttonContainer}>
+                <div><Button onClick={handleFormSubmit} className={styles.addButton} variant="contained">
                     Add
-                </Button > {submitError && <label className="errorMessage">Error: {errorMessage}</label> }
+                </Button > </div>
+                {submitError && <div> <Alert className={styles.alert} variant="outlined" severity="error">
+                         <strong>Unable to Submit data. Try again later.</strong>
+                    </Alert></div>} 
+                    { isAlertVisible && <div> <Alert className={styles.alert} variant="outlined" severity="success">
+                         <strong>Ticket successfully added!</strong>
+                    </Alert></div>}
+                    </div>
                 {loading && <label className="errorMessage">Loading...</label> }
             </form>
         </div>
