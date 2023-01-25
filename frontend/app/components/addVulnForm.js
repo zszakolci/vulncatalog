@@ -31,7 +31,6 @@ function AddVulnForm(){
     });  
 
     register("cve", {required: true});
-    console.log("errors",errors);
     const cve = watch("cve");
     const constructURL = (cve) =>
     {
@@ -102,8 +101,7 @@ const handleFormSubmit =  (event) =>
                       name={name}
                       className={className}
                     />
-                    {console.log(invalid)}
-                    {console.log(error)}
+      
                     {invalid && isTouched && <div className="error-message">szar</div>}
                     </div> 
                   )}

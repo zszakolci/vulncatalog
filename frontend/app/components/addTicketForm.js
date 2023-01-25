@@ -5,7 +5,7 @@ import LibrarySearch from './librarySearch';
 import VersionSearch from './versionSearch';
 import React, { useState } from 'react';
 import useSWR from 'swr';
-
+export const ErrorContext = React.createContext();
 function AddTicketForm(){
     const CVEIDInput = React.createRef();
     const LPEInput = React.createRef();
@@ -16,13 +16,14 @@ function AddTicketForm(){
     const fixedInput = React.createRef();
     const fetcher = (...args) => fetch(...args).then(res => res.json());
     const [post,setPost] = useState(false);
+    const [err, setErr] = useState(null);
     const restURL = 
     CVEIDInput.current && LPEInput.current && LSVInput.current && LPSInput.current
     && libraryInput.current && affectedInput.current && fixedInput.current
     ?`http://localhost:8080/ticket/add?vulnerabilityId=${CVEInput.current.value}&lpeId=${LPEInput.current.value}&lpsId=${LPSInput.current.value}&lsvId=${LSVInput.current.value}&libraryId=${libraryInput.current.value}&affectedversion=${affectedInput.current.value}&fixedversion=${fixedInput.current.value}`
     : '';
 
-    const {data,error,isLoading} = useSWR( post ? restURL: null); 
+    //const {data,error,isLoading} = useSWR( post ? restURL: null); 
    
     const handleSubmit = async (event) =>
     {
@@ -31,6 +32,7 @@ function AddTicketForm(){
     }
 
     return (
+        <ErrorContext.Provider value={{ err, setErr }}>
         <div className='box'>
                 <form className="addTicketForm">
 
@@ -47,6 +49,7 @@ function AddTicketForm(){
                     </Button > 
             </form>
         </div>
+        </ErrorContext.Provider>
       );
 }
 
