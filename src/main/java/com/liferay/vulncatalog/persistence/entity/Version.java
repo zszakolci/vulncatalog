@@ -6,6 +6,9 @@ import javax.persistence.Id;
 @Entity
 public class Version {
 
+	public Version() {
+	}
+
 	@Id
 	private String id;
 

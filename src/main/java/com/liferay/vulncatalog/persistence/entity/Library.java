@@ -13,6 +13,9 @@ public class Library {
 	private Integer id;
 	private String name;
 
+	public Library() {
+	}
+
 	public Library(String name) {
 		this.name = name;
 	}
