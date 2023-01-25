@@ -2,7 +2,7 @@
     padding: 15px 0;
 }
 .addButton{
-    margin-top:2em;
+    /* margin-top:2em; */
 }
 
 .libraryField{
@@ -24,4 +24,19 @@
 
 .comboBoxContainer{
     margin-top: 1.5em;
+}
+
+.alert{
+    
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: flex-start;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    margin-top: 2em;
+    gap:2em;
+    flex-wrap:wrap;
 }
