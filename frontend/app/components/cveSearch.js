@@ -8,7 +8,7 @@ const CVESearch = (props, ref) => {
     const fetcher = (...args) => fetch(...args).then(res => res.json());
     const [fetchActive,setFetchActive] = useState(false);
     const { data, error, isValidating } = useSWR(
-      fetchActive ? `http://localhost:8080/vulnerability?id=${searchTerm}` : null, 
+      fetchActive ? `http://localhost:8080/vulnerability/search?keyword=${searchTerm}` : null, 
       (path, ...args) =>
         new Promise((resolve, reject) => {
           setTimeout(() => {

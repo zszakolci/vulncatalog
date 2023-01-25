@@ -19,7 +19,7 @@ function AddTicketForm(){
     const restURL = 
     CVEIDInput.current && LPEInput.current && LSVInput.current && LPSInput.current
     && libraryInput.current && affectedInput.current && fixedInput.current
-    ?`http://localhost:8080/ticket/add?id=${CVEInput.current.value}&lpe=${LPEInput.current.value}&lps=${LPSInput.current.value}&lsv=${LSVInput.current.value}&library=${libraryInput.current.value}&affectedversion=${affectedInput.current.value}&fixedversion=${fixedInput.current.value}`
+    ?`http://localhost:8080/ticket/add?vulnerabilityId=${CVEInput.current.value}&lpeId=${LPEInput.current.value}&lpsId=${LPSInput.current.value}&lsvId=${LSVInput.current.value}&libraryId=${libraryInput.current.value}&affectedversion=${affectedInput.current.value}&fixedversion=${fixedInput.current.value}`
     : '';
 
     const {data,error,isLoading} = useSWR( post ? restURL: null); 
