@@ -7,7 +7,6 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-
         <div className={styles.layout}>
         <HeaderBar admin={true}/>
         {children}
