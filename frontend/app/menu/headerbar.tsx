@@ -4,7 +4,6 @@ import Logo from './logo.js';
 import NavBar from './navbar';
 
 function HeaderBar({admin,}:{admin:boolean}){
-console.log({admin});
 
     const pageTitle = admin ? "Add Vulnerability Record": "Search in Vulnerability Catalog";
     return(

@@ -99,7 +99,7 @@ function AddTicketForm(){
                     <VersionSearch ref={affectedInput} label="Affects Version"/>
                     <VersionSearch ref={fixedInput} label="Fixed Version"/>
                     <div className={styles.buttonContainer}>
-                    <div><Button onClick={handleSubmit} className={styles.addButton} variant="contained">
+                    <div><Button color='secondary' onClick={handleSubmit} className={styles.addButton} variant="contained">
                     Add
                     </Button > </div>
                     {submitError && <div> <Alert className={styles.alert} variant="outlined" severity="error">

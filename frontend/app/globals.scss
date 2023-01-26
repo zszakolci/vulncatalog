@@ -48,11 +48,12 @@ textArea:hover{
   border-radius: 10px;
   padding: 30px;
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,1);
-  background-color: #eff8f4;
+  /* background-color: #eff8f4; */
+  background-color:#F6FCFC;
 }
 
 .box:hover{
-  background-color: #eff8f4;
+  background-color: #F6FCFC;
 }
 
 .urlInput{
@@ -81,7 +82,7 @@ textArea:hover{
   border-bottom: 1px solid #575756;
   border-radius: 0;
   background-position: 100% center;
-  background-color: #eff8f4;
+  background-color: #F6FCFC;
   box-shadow: none;
 }
 
@@ -92,7 +93,7 @@ textArea:hover{
   border-bottom: 1px solid #575756;
   border-radius: 0;
   background-position: 100% center;
-  background-color: #eff8f4;
+  background-color: #F6FCFC;
   box-shadow: none;
 }
 
@@ -117,7 +118,5 @@ label{
 }
 
 .combobox{
-    padding-top: 0.1em;
-    padding-bottom: 0.1em;
-    border-radius: 10px;
+    /* border-radius: 10px; */
 }

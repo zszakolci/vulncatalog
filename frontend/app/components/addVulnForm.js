@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { Alert, Button } from '@mui/material';
+import { Alert, Button, Grid } from '@mui/material';
 import styles from './addVulnForm.module.css'
 
 import { useForm,Controller } from "react-hook-form";
 import { usePromiseTracker, trackPromise} from "react-promise-tracker";
+import { Box } from '@mui/system';
 
 
 function AddVulnForm(){
@@ -86,7 +87,8 @@ const handleFormSubmit =  (event) =>
     
 }
     return (
-        <div className={"box"} >
+        <Box className='box'>
+        
             <form ref={formRef} className={styles.addVulnForm } >
             
             <Controller
@@ -125,7 +127,7 @@ const handleFormSubmit =  (event) =>
                     {/* {errors.url && <div className="errorMessage">This field is required</div>} */}
                     <div className={styles.listItem}><textarea ref={descriptionInput} className='textArea' placeholder="DESCRIPTION"/></div>
                     <div className={styles.buttonContainer}>
-                <div><Button onClick={handleFormSubmit} className={styles.addButton} variant="contained">
+                <div><Button color='secondary' onClick={handleFormSubmit} className={styles.addButton} variant="contained">
                     Add
                 </Button > </div>
                 {submitError && <div> <Alert className={styles.alert} variant="outlined" severity="error">
@@ -137,7 +139,7 @@ const handleFormSubmit =  (event) =>
                     </div>
                 {loading && <label className="errorMessage">Loading...</label> }
             </form>
-        </div>
+            </Box>
       );
 }
 

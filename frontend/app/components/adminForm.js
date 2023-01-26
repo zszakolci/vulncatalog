@@ -5,10 +5,9 @@ import AddTicketForm from '../components/addTicketForm'
 import AddLibraryForm from '../components/addLibraryForm'
 import styles from './adminForm.module.css'
 import React, { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import { Button, ThemeProvider } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
-
-
+import theme from '../admin/themes'
 
 function AdminForm(){
 
@@ -32,9 +31,10 @@ function AdminForm(){
 
     return (
         <div className={styles.adminFormContainer}>
+           <ThemeProvider theme={theme}>
             <section className={styles.addVulnForm}>
             <div className={styles.labelContainer}> 
-            <Button startIcon={<AddCircle/>} onClick={vulnLabelClicked}>
+            <Button startIcon={<AddCircle/>} color='secondary' onClick={vulnLabelClicked}>
                 Add vulnerability
             </Button>
             </div>
@@ -47,11 +47,12 @@ function AdminForm(){
                <div hidden={!libraryFormOpened}> <AddLibraryForm /></div>
              </section> */}
             <section  className={styles.addTicketForm}>
-            <div className={styles.labelContainer}> <Button startIcon={<AddCircle/>} onClick={ticketLabelClicked}>
+            <div className={styles.labelContainer}> <Button color='secondary' startIcon={<AddCircle/>} onClick={ticketLabelClicked}>
                 Add a ticket
     </Button></div>  
                 <div hidden={!ticketFormOpened}><AddTicketForm /></div>
              </section>
+               </ThemeProvider>
         </div>
       );
 }
