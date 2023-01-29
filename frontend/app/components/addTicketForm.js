@@ -2,10 +2,13 @@ import { Alert, AlertTitle, Button } from '@mui/material';
 import styles from './addTicketForm.module.css'
 import CVESearch from './cveSearch'
 //import LibrarySearch from './librarySearch';
-import VersionSearch from './versionSearch';
+import AffectedVersionSearch from './versionSearch';
 import React, { useState, useContext } from 'react';
 import { usePromiseTracker, trackPromise} from "react-promise-tracker";
-import SuccessMessage from './successMessage'
+import FixedVersionSearch from './fixedVersionSearch'
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { FormatStrikethroughOutlined } from '@mui/icons-material';
 
 const ErrorContext = React.createContext([{}, () => {}]);
 /* const ErrorProvider = (props) => {
@@ -20,13 +23,8 @@ const ErrorContext = React.createContext([{}, () => {}]);
   export { ErrorContext };
 
 function AddTicketForm(){
-    const CVEIDInput = React.createRef();
-    const LPEInput = React.createRef();
-    const LSVInput = React.createRef();
-    const LPSInput = React.createRef();
-    const libraryInput = React.createRef();
-    const affectedInput = React.createRef();
-    const fixedInput = React.createRef();
+    
+    const loading = usePromiseTracker();
     const [errorMessage, setErrorMessage] = useState("");
     const [submitError,setSubmitError] = useState(false);
     const [ isAlertVisible, setIsAlertVisible ] = React.useState(false);
@@ -35,71 +33,136 @@ function AddTicketForm(){
     // const [err, setErr] = useState(null);
     const [err, setErr] = useState({});
 
-    //const {data,error,isLoading} = useSWR( post ? restURL: null); 
-    console.log("szopás:" + err);
+    const ticketSchema = Yup.object().shape({
+        cveSearch: Yup.string()
+          .required('Please choose a vulnerability or add a new one.'),
+        lpe: Yup.string().notRequired().lowercase().matches(/^(lpe-[0-9]{4,10})?$/, {message: 'Please enter a valid LPE', excludeEmptyString: true })
+            ,
+        lsv: Yup.string().notRequired().lowercase()
+            .matches(/^(lsv-[0-9]{3,10})?$/, {message: 'Please enter a valid LSV', excludeEmptyString: true })
+              ,
+        lps: Yup.string()
+        .required('Ticked ID is required'),
+        affectedVersion: Yup.string()
+        .required('Please choose the affected version')
+      });
+
+
+  const formik = useFormik({
+    initialValues: {
+      cveSearch: '',
+      lpe: '',
+      lsv: '',
+      lps: '',
+      affectedLibrary: '',
+      affectedVersion: '',
+      fixedVersion: ''
+    },
+    validationSchema: ticketSchema,
+    onSubmit: (values, { setSubmitting }) => {
+        handleSubmit();
+        setSubmitting(false);
+    },
+  });
+
+  const validateForm = () =>
+  {
+      return (formik.values.cveSearch && formik.values.affectedVersion && formik.values.lps.length > 4);
+  }
+
     const handleSubmit = async (event) =>
     {
         const restURL = 
-        CVEIDInput.current && LPEInput.current && LSVInput.current && LPSInput.current
-        && libraryInput.current && affectedInput.current && fixedInput.current
-        ?`http://localhost:8080/ticket/add?vulnerabilityId=${CVEIDInput.current.value}&lpeId=${LPEInput.current.value}&ticketId=${LPSInput.current.value}&lsvId=${LSVInput.current.value}&library=${libraryInput.current.value}&affectedVersion=${affectedInput.current.value}&fixedVersion=${fixedInput.current.value}`
-        : '';
-        event.preventDefault(); 
-        console.log("in handlesubmit");
-        console.log(restURL);
+        `http://localhost:8080/ticket/add?vulnerabilityId=${formik.values.cveSearch}&lpeId=${formik.values.lpe}&ticketId=${formik.values.lps}&lsvId=${formik.values.lsv}&library=${formik.values.affectedLibrary}&affectedVersion=${formik.values.affectedVersion}&fixedVersion=${formik.values.fixedVersion}`;
+       
         trackPromise(
         fetch(restURL)
             .then(async response => {
-                //const data = await response.json();
-    
-                // check for error response
                 if (!response.ok) {
-                    // get error message from body or default to response statusText
+
                     const error = (data && data.message) || response.statusText;
                     return Promise.reject(error);
                 }
-                setSubmitError(false);
-                CVEIDInput.current.value = "";
-                LPEInput.current.value = "";
-                LSVInput.current.value = "";
-                LPSInput.current.value = "";
-                libraryInput.current.value = "";
-                affectedInput.current.value = "";
-                fixedInput.current.value = "";
+                
+                formik.resetForm();
                 setIsAlertVisible(true);
                 setTimeout(() => {
                     setIsAlertVisible(false);
                 }, 3000);
-                //this.setState({ totalReactPackages: data.total })
+   
             })
             .catch(error => {
                 setErrorMessage(error.toString());
                 setSubmitError(true);
                 setSubmitSuccess(false);
             }));
-        //setPost(true);
-        //event.preventDefault();
-        //formRef.current.submit();
-         
+          
+ 
     }
 
     return (
-        <ErrorContext.Provider value={[err, setErr]}>
+      
+      <ErrorContext.Provider value={[err, setErr]}>
         <div className='box'>
                 {err && <Alert variant="outlined" severity="error">
                          <strong>{err ? err.toString() : ''}</strong>
                     </Alert> }
                 <form className="addTicketForm">
                    
-                   <CVESearch ref={CVEIDInput} /* setErr={setErr} err={err} *//>
-                    <div className={styles.listItem}><input ref={LPEInput} className="inputField" type="text" placeholder="LPE" /></div>
-                    <div className={styles.listItem}><input ref={LSVInput} className="inputField" type="text" placeholder="LSV" /></div>
-                    <div className={styles.listItem}><input ref={LPSInput} className="inputField" type="text" placeholder="LPS" /></div>
-                    <div className={styles.libraryFieldContainer}><input ref={libraryInput} className={styles.libraryField + " inputField"} type="text" placeholder="Affected library"/></div>
-                    <VersionSearch ref={affectedInput} label="Affects Version"/>
-                    <VersionSearch ref={fixedInput} label="Fixed Version"/>
+                   <CVESearch 
+                   formik={formik} />
+                    <div className={styles.listItem}>
+                    {formik.touched.lpe && formik.errors.lpe ? (
+                <Alert sx={{border: '0px',fontSize: '14px', padding: '0px'}} variant="outlined" severity='warning'>{formik.errors.lpe}</Alert>
+       ) : null}
+                      <input
+                       onChange={formik.handleChange} 
+                       onBlur={formik.handleBlur} 
+                       name='lpe' 
+                       value={formik.values.lpe} 
+                       className={`inputField ${
+                        formik.touched.lpe && formik.errors.lpe ? 'invalid' : ''}`} 
+                        type="text" placeholder="LPE" /></div>
+                    <div className={styles.listItem}>
+                    {formik.touched.lsv && formik.errors.lsv ? (
+                <Alert sx={{border: '0px',fontSize: '14px', padding: '0px'}} variant="outlined" severity='warning'>{formik.errors.lsv}</Alert>
+       ) : null}
+                      <input className={`inputField ${
+                        formik.touched.lsv && formik.errors.lsv ? 'invalid' : ''}`} 
+                        onChange={formik.handleChange} 
+                       onBlur={formik.handleBlur} 
+                       name='lsv' 
+                       value={formik.values.lsv} 
+                         type="text" placeholder="LSV" /></div>
+                    <div className={styles.listItem}>
+                    {formik.touched.lps && formik.errors.lps ? (
+                <Alert sx={{border: '0px',fontSize: '14px', padding: '0px'}} variant="outlined" severity='warning'>{formik.errors.lps}</Alert>
+       ) : null}
+                      <input required 
+                   
+                    className={`inputField ${
+                      formik.touched.lps && formik.errors.lps ? 'invalid' : ''}` }
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur} 
+                      value={formik.values.lps} 
+                      name='lps' 
+                      label='LPS'
+                    type="text" 
+                    placeholder="LPS" /></div>
+                    <div className={styles.libraryFieldContainer}>
+                      <input 
+                   
+                      value={formik.values.affectedLibrary}
+                      onChange={formik.handleChange}
+                      name='affectedLibrary'
+                       className={styles.libraryField + " inputField"} 
+                       type="text" 
+                       placeholder="Affected library"/>
+                       </div>
+                    <AffectedVersionSearch formik={formik} />
+                    <FixedVersionSearch formik={formik} />
                     <div className={styles.buttonContainer}>
-                    <div><Button color='secondary' onClick={handleSubmit} className={styles.addButton} variant="contained">
+                    <div><Button disabled={!formik.isValid || formik.isSubmitting } color='secondary' onClick={formik.handleSubmit} className={styles.addButton} variant="contained">
                     Add
                     </Button > </div>
                     {submitError && <div> <Alert className={styles.alert} variant="outlined" severity="error">
@@ -112,8 +175,8 @@ function AddTicketForm(){
            
             </form>
         </div>
-        </ErrorContext.Provider>
-      );
+        </ErrorContext.Provider> 
+      ); 
 }
 
 export default AddTicketForm;

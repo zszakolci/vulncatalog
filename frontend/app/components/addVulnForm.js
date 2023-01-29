@@ -3,37 +3,44 @@
 import React, { useState, useRef } from 'react';
 import { Alert, Button, Grid } from '@mui/material';
 import styles from './addVulnForm.module.css'
-
-import { useForm,Controller } from "react-hook-form";
 import { usePromiseTracker, trackPromise} from "react-promise-tracker";
 import { Box } from '@mui/system';
-
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 function AddVulnForm(){
-    const [urlFieldValue, setUrlFieldValue] = React.useState('');
-    const CVEInput = useRef(null);
+
     const descriptionInput = useRef(null);
     const formRef = useRef(null);
-    //const cveInputName="cve";
-    const [errorMessage, setErrorMessage] = useState("");
+    const cveInputName="cve";
+
     const [submitError,setSubmitError] = useState(false);
     const { loading } = usePromiseTracker();
     const [ isAlertVisible, setIsAlertVisible ] = React.useState(false);
-    //const restURL = (CVEInput.current  && descriptionInput.current) ? `http://localhost:8080/vulnerability/add?id=${CVEInput.current.value}&url=${urlFieldValue}&description=${descriptionInput.current.value}`: "";
 
-    //console.log(restURL);
-    //const {data,error,isLoading} = useSWR( post ? restURL: null,fetcher); 
+    const vulnSchema = Yup.object().shape({
+        cve: Yup.string()
+          .min(6, 'Vulnerability ID is invalid')
+          .max(50, 'Vulnerability ID is invalid')
+          .required('CVE is required'),
+        url: Yup.string()
+          .url('Please enter a valid URL')
+          .required('URL field is required'),
+      });
 
-     const { register, handleSubmit, watch, formState: { errors }, control } = useForm({
-        mode: "onTouched",
-        defaultValues: {
-            cve: '',
-            url: ''
-          }
-    });  
 
-    register("cve", {required: true});
-    const cve = watch("cve");
+  const formik = useFormik({
+    initialValues: {
+      cve: '',
+      url: ''
+    },
+    validationSchema: vulnSchema,
+    onSubmit: (values, { setSubmitting }) => {
+    handleFormSubmit();
+      setSubmitting(false);
+    },
+  });
+
     const constructURL = (cve) =>
     {
         return "https://nvd.nist.gov/vuln/detail/" + cve;
@@ -42,35 +49,23 @@ function AddVulnForm(){
     const handleCVEInputBlur = (e) =>
 {
     const inputText = e.target.value;
-    const url = inputText? constructURL(inputText): "";
-    setUrlFieldValue(url);
-}
-
-const handleURLChange = (e) =>
-{
-
-    setUrlFieldValue(e.target.value);
+    const url = inputText.length >3? constructURL(inputText): "";
+    formik.setFieldValue('url',url)
 }
 
 const handleFormSubmit =  (event) =>
 {
-    const restURL = `http://localhost:8080/vulnerability/add?id=${CVEInput.current.value}&url=${urlFieldValue}&description=${descriptionInput.current.value}`;
-    console.log("in handlesubmit");
+    const restURL = `http://localhost:8080/vulnerability/add?id=${formik.values.cve}&url=${formik.values.url}&description=${descriptionInput.current.value}`;
     trackPromise(
     fetch(restURL)
         .then(async response => {
-            //const data = await response.json();
-
-            // check for error response
             if (!response.ok) {
-                // get error message from body or default to response statusText
                 const error = (data && data.message) || response.statusText;
                 return Promise.reject(error);
             }
             setSubmitError(false);
-            CVEInput.current.value = "";
+            formik.resetForm();
             descriptionInput.current.value = "";
-            setUrlFieldValue("");
             setIsAlertVisible(true);
             setTimeout(() => {
                 setIsAlertVisible(false);
@@ -80,54 +75,38 @@ const handleFormSubmit =  (event) =>
             setErrorMessage(error.toString());
             setSubmitError(true);
         }));
-    //setPost(true);
-    event.preventDefault;
-    //formRef.current.submit();
-   
-    
 }
     return (
         <Box className='box'>
         
             <form ref={formRef} className={styles.addVulnForm } >
             
-            <Controller
-                 render={({
-                    field: { onBlur, value, name={cve}, ref, placeholder="CVE ID", className="inputField" },
-                    fieldState: { invalid, isTouched, isDirty, error },
-                  }) => (
-                    <div  className={styles.listItem}>
+            <div  className={styles.listItem}>
+            {formik.touched.cve && formik.errors.cve ? (
+         <Alert sx={{border: '0px',fontSize: '14px', padding: '0px'}} variant="outlined" severity='warning'>{formik.errors.cve}</Alert>
+       ) : null}
                     <input
-                      value={value}
-                      required
-                      onBlur={handleCVEInputBlur} // notify when input is touched
-                      ref={CVEInput} // wire up the input ref
-                      placeholder={placeholder}
-                      name={name}
-                      className={className}
+                      onBlur={(e)=>{formik.handleBlur(e); handleCVEInputBlur(e)}}
+                      onChange={formik.handleChange}
+                      placeholder={"CVE ID"}
+                      name={cveInputName}
+                      className={`inputField ${
+                        formik.touched.cve && formik.errors.cve ? 'invalid' : ''}`}
+                      value={formik.values.cve}
                     />
-      
-                    {invalid && isTouched && <div className="error-message">szar</div>}
+                    
                     </div> 
-                  )}
-                control={control}
-                rules={{ required: true }}
-                name={cve}
-                
-                
-            />
-            {cve}
-            {errors.cve  && 
-  <div className="error-message">This field is required</div>}
-                       
-                    {/* <div  className={styles.listItem}><input ref={CVEInput} name={cveInputName} onBlur={handleCVEInputBlur}
-       className="inputField" type="text" placeholder="CVE ID" /></div> */}
-                     {/* {errors.id && <div className="errorMessage">This field is required</div>}  */}
-                    <div className={styles.URLContainer}><input className={"inputField " + styles.URLItem} type="url" placeholder="URL" onChange={handleURLChange} value={urlFieldValue} /> </div>
-                    {/* {errors.url && <div className="errorMessage">This field is required</div>} */}
+
+                    <div className={styles.URLContainer}>
+                    {formik.touched.url && formik.errors.url ? (
+         <Alert sx={{border: '0px',fontSize: '14px', padding: '0px'}} variant="outlined" severity='warning'>Please enter a valid URL</Alert> ) : null}
+
+                        <input className={styles.URLItem  + " inputField " + `${
+                        formik.touched.url && formik.errors.url ? 'invalid' : ''}`} type="url" name='url' placeholder="URL" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.url} /> </div>
+
                     <div className={styles.listItem}><textarea ref={descriptionInput} className='textArea' placeholder="DESCRIPTION"/></div>
                     <div className={styles.buttonContainer}>
-                <div><Button color='secondary' onClick={handleFormSubmit} className={styles.addButton} variant="contained">
+                <div><Button disabled={!formik.isValid || formik.isSubmitting} color='secondary' onClick={formik.handleSubmit} className={styles.addButton} variant="contained">
                     Add
                 </Button > </div>
                 {submitError && <div> <Alert className={styles.alert} variant="outlined" severity="error">
