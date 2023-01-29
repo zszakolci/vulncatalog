@@ -20,7 +20,8 @@ textArea{
   box-shadow: 0px 0px 2px 0px rgba(0,0,0,1);
   padding: 12px 14px;
   margin:auto;
-  height: 4em;
+  height: 6em;
+  width: 20em;
 }
 
 textArea::placeholder{
@@ -61,7 +62,6 @@ textArea:hover{
 }
 
 .inputField{
-
   font-size: 14px;
   line-height: 18px;
   border-radius: 10px;
@@ -98,8 +98,13 @@ textArea:hover{
 }
 
 .inputField:invalid {
+  
+}
+
+.invalid{
   box-shadow: 0 0 5px 1px red;
 }
+
 .inputField::placeholder{
   color: color(#575756 a(0.8));
   text-transform: uppercase;
