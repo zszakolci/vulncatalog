@@ -10,8 +10,15 @@ const CVESearch = (props) => {
     const [fetchActive,setFetchActive] = useState(false);
     const [err,setErr] = useContext(ErrorContext);
     const [noOptions,setNoOptions] = useState("Start to type CVE..."); 
-    //const [error,setError] = useState(false);
-    //const [errorMessage,setErrorMessage] = useState("");
+    const cveNotFound = () => (
+      <div>CVE could not be found. <Button onClick={handleAddClick} color='secondary'>Add new</Button></div>
+    );
+    
+      
+    const handleAddClick = e =>
+    {
+      console.log("button clicked")
+    }
 
    const { data,error, isValidating } = useSWR(
       fetchActive ? `http://localhost:8080/vulnerability/search?keyword=${searchTerm}` : null, 
@@ -39,7 +46,7 @@ const CVESearch = (props) => {
     const lowerCase = e.target.value.toLowerCase();
     setSearchTerm(lowerCase);
     lowerCase === "" ? setFetchActive(false) : setFetchActive(true);
-    error ?  setNoOptions(error.toString()) : setNoOptions("CVE could not be found. Add new ->");;
+    error ?  setNoOptions(error.toString()) : setNoOptions(cveNotFound);
       
     if(lowerCase === "")
       setNoOptions("Start to type CVE...") 
@@ -80,7 +87,7 @@ const handleOptionSelected = (_event, newValue) => {
               inputValue={props.formik.values.cveSearch}
               //value={props.formik.values.cveSearch}
               onChange={handleOptionSelected}
-              sx={{width: '70%', backgroundColor: '#FFF'}}
+              sx={{width: '60%', backgroundColor: '#FFF'}}
               renderInput={(params) => <TextField  
                 {...params} 
                 value={props.formik.values.cveSearch} 
@@ -93,7 +100,7 @@ const handleOptionSelected = (_event, newValue) => {
                 required
                 className="combobox" 
                 placeholder="CVE ID" />} />  }
-            <Button className={styles.linkButton}>Add new</Button>
+            {/* <Button className={styles.linkButton} color='secondary'>Add new</Button> */}
         </div>
     );
 };
