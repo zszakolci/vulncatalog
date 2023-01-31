@@ -1,20 +1,26 @@
+'use client'
 import Link from 'next/link';
 import styles from './navbar.module.css';
+import {useRouter, usePathname} from 'next/navigation';
+import {Button } from "@mui/material";
 
 function NavBar({admin,}:{admin:boolean}){
 
+    const router = useRouter();
+    const pathname = usePathname();
+     
     return(
                 <nav className={styles.navBar}>
                     <ul>
-                        <li hidden={!admin} className={styles.navItem}>
-                    <Link className={styles.link} href='/'>
+                        <li className={styles.navItem}>
+                    <Button color={pathname === '/' ? 'active' : 'secondary' } sx={{backgroundColor: pathname === '/'? '#D6D8E1' : 'none', fontStyle: pathname === '/'? 'bold' : 'none' }} onClick={() => router.push('/')}> 
                         Search Catalog
-                    </Link>  
+                    </Button>
                     </li> 
-                    <li hidden={admin} className={styles.navItem}>   
-                    <Link className={styles.link} href='/admin'>
+                    <li className={styles.navItem}>  
+                    <Button color={pathname === '/admin' ? 'active' : 'secondary' } sx={{backgroundColor: pathname === '/admin'? '#D6D8E1' : 'none', fontStyle: pathname === '/admin' ? 'bold' : 'none' }} onClick={() => router.push('/admin')}> 
                         Admin
-                    </Link>
+                    </Button> 
                     </li> 
                     </ul>
                 </nav>
