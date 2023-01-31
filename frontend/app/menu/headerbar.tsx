@@ -1,12 +1,16 @@
-import Link from 'next/link';
+'use client'
+
 import styles from './headerbar.module.css';
 import Logo from './logo.js';
 import NavBar from './navbar';
+import theme from '../admin/themes'
+import { ThemeProvider } from '@mui/material';
 
 function HeaderBar({admin,}:{admin:boolean}){
 
-    const pageTitle = admin ? "Add Vulnerability Record": "Search in Vulnerability Catalog";
+    const pageTitle =  "Liferay Vulnerability Catalog";
     return(
+        <ThemeProvider theme={theme}>
         <header className={styles.headerBar}>
             <Logo />
             <div className={styles.title}>
@@ -14,6 +18,7 @@ function HeaderBar({admin,}:{admin:boolean}){
             </div>
             <NavBar admin={admin}/>
         </header>
+        </ThemeProvider>
     );
 }
 

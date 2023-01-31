@@ -19,6 +19,12 @@ const theme = createTheme({
       light: '#42a5f5',
       dark: '#1565c0'
     },
+
+    active: {
+      main: '#0A175D ',
+      light: '#0A175D'
+    },
+
     // Provide every color token (light, main, dark, and contrastText) when using
     // custom colors for props in Material UI's components.
     // Then you will be able to use it like this: `<Button color="custom">`
