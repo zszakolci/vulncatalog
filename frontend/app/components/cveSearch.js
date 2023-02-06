@@ -29,7 +29,7 @@ const CVESearch = (props) => {
               .then(resolve)
               .catch(reject);
             
-          }, 700);
+          }, 400);
         })
       ); 
 
@@ -45,10 +45,10 @@ const CVESearch = (props) => {
   const handleChange = e => {
     const lowerCase = e.target.value.toLowerCase();
     setSearchTerm(lowerCase);
-    lowerCase === "" ? setFetchActive(false) : setFetchActive(true);
+    lowerCase.length < 6 ? setFetchActive(false) : setFetchActive(true);
     error ?  setNoOptions(error.toString()) : setNoOptions(cveNotFound);
       
-    if(lowerCase === "")
+    if(lowerCase.length < 6)
       setNoOptions("Start to type CVE...") 
 
   };
@@ -84,7 +84,7 @@ const handleOptionSelected = (_event, newValue) => {
                   );
                 }}
               disablePortal 
-              inputValue={props.formik.values.cveSearch}
+              /* inputValue={props.formik.values.cveSearch} */
               //value={props.formik.values.cveSearch}
               onChange={handleOptionSelected}
               sx={{width: '60%', backgroundColor: '#FFF'}}
@@ -92,14 +92,17 @@ const handleOptionSelected = (_event, newValue) => {
                 {...params} 
                 value={props.formik.values.cveSearch} 
                 error={props.formik.touched.cveSearch && Boolean(props.formik.errors.cveSearch)} 
-                onChange={(e)=>{handleChange(e), props.formik.handleChange(e) }} 
+                onChange={(e)=>{handleChange(e) }} 
                 /* helperText={props.formik.touched.cve && props.formik.errors.cve}  */
                 onBlur={(e)=>{props.formik.handleBlur(e); handleBlur(e)}} 
                 name='cveSearch'
                 label='CVE'
                 required
                 className="combobox" 
-                placeholder="CVE ID" />} />  }
+                placeholder="CVE ID" />} /> 
+                
+                }
+
             {/* <Button className={styles.linkButton} color='secondary'>Add new</Button> */}
         </div>
     );

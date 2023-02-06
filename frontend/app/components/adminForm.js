@@ -1,19 +1,29 @@
 "use client"
-import '../components/addVulnForm'
-import AddVulnForm from '../components/addVulnForm';
-import AddTicketForm from '../components/addTicketForm'
-import AddLibraryForm from '../components/addLibraryForm'
+
+//import AddVulnForm from '../components/addVulnForm';
+//import AddTicketForm from '../components/addTicketForm'
+//import AddLibraryForm from '../components/addLibraryForm'
 import styles from './adminForm.module.css'
-import React, { useState, useEffect } from 'react';
-import { Button, ThemeProvider } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Collapse, ThemeProvider } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 import theme from '../admin/themes'
+import dynamic from "next/dynamic"
+import FormSkeleton from './formSkeleton'
+
+ const AddVulnForm = dynamic(() => import("../components/addVulnForm"), {
+    loading: () => <FormSkeleton/>,
+  });
+
+  const AddTicketForm = dynamic(() => import("../components/addTicketForm"), {
+    loading: () => <FormSkeleton/>,
+  });
 
 function AdminForm(){
 
     const [vulnFormOpened, setVulnFormOpened] = useState(false);
     const [ticketFormOpened, setTicketormOpened] = useState(false);
-    const [libraryFormOpened, setLibraryFormOpened] = useState(false);
+    //const [libraryFormOpened, setLibraryFormOpened] = useState(false);
     
 
     const vulnLabelClicked =()=>{
@@ -24,10 +34,6 @@ function AdminForm(){
         setTicketormOpened(!ticketFormOpened);
     }
 
-    const libraryLabelClicked =()=>{
-        setLibraryFormOpened(!libraryFormOpened);
-        
-    }
 
     return (
         <div className={styles.adminFormContainer}>
@@ -38,7 +44,9 @@ function AdminForm(){
                 Add vulnerability
             </Button>
             </div>
-                <div hidden={!vulnFormOpened}><AddVulnForm  /></div>
+                <div>
+                    <Collapse in={vulnFormOpened}>{<AddVulnForm  /> }</Collapse>
+                </div>
             </section>
             {/* <section  className={styles.addLibraryForm}>
             <div className={styles.labelContainer}> <Button startIcon={<AddCircle/>} onClick={libraryLabelClicked}>
@@ -50,7 +58,9 @@ function AdminForm(){
             <div className={styles.labelContainer}> <Button color='secondary' startIcon={<AddCircle/>} onClick={ticketLabelClicked}>
                 Add a ticket
     </Button></div>  
-                <div hidden={!ticketFormOpened}><AddTicketForm /></div>
+                <div>
+                    <Collapse in={ticketFormOpened}>{<AddTicketForm /> }</Collapse>
+                </div>
              </section>
                </ThemeProvider>
         </div>

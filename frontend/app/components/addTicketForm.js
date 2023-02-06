@@ -34,7 +34,7 @@ function AddTicketForm(){
     const [err, setErr] = useState({});
 
     const ticketSchema = Yup.object().shape({
-        cveSearch: Yup.string()
+        cveSearch: Yup.string().nullable(true)
           .required('Please choose a vulnerability or add a new one.'),
         lpe: Yup.string().notRequired().lowercase().matches(/^(lpe-[0-9]{4,10})?$/, {message: 'Please enter a valid LPE', excludeEmptyString: true })
             ,
@@ -43,7 +43,7 @@ function AddTicketForm(){
               ,
         lps: Yup.string()
         .required('Ticked ID is required'),
-        affectedVersion: Yup.string()
+        affectedVersion: Yup.string().nullable(true)
         .required('Please choose the affected version')
       });
 
@@ -89,12 +89,13 @@ function AddTicketForm(){
                 setTimeout(() => {
                     setIsAlertVisible(false);
                 }, 3000);
-   
+                  setSubmitError(false);
+                  //setSubmitSuccess(true);
             })
             .catch(error => {
                 setErrorMessage(error.toString());
                 setSubmitError(true);
-                setSubmitSuccess(false);
+                //setSubmitSuccess(false);
             }));
           
  
