@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import InfoIcon from '@mui/icons-material/Info';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { Grow } from '@mui/material';
 
 function Vulnentry({vulnentry}) {
 
@@ -49,6 +50,7 @@ function Vulnentry({vulnentry}) {
   const [open, setOpen] = React.useState(false);
 
   return(
+    <Grow in={true}>
     <li className={styles.vulnResultRow} >
         <div className={styles.col1} data-label='Vulnerability Id'>
           <a className={styles.link} target="_blank" rel="noreferrer noopener" href={vulnentry.url}>{vulnentry.vulnerabilityid}</a>
@@ -61,6 +63,7 @@ function Vulnentry({vulnentry}) {
         <div className={styles.col7} data-label='Fixed Version'>{vulnentry.fixedversion}</div>
         <div className={styles.col8} data-label='Description'>{description(vulnentry.description)}</div>
     </li>
+    </Grow>
   );
 }
 

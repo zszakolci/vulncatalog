@@ -40,17 +40,14 @@ const AffectedVersionSearch = (props) =>{
                   );
                 }}
             sx={{width: '60%',backgroundColor: '#FFF'}}
-            //name='affectedVersion'
+
             onChange={handleOptionSelected}
             onBlur={props.formik.handleBlur} 
-            //onInputChange={props.formik.handleChange}
-            inputValue={props.formik.values.affectedVersion}
+
              renderInput={(params) => <TextField 
              {...params} 
              
             error={props.formik.touched.affectedVersion && Boolean(props.formik.errors.affectedVersion)} 
-            
-            /* helperText={props.formik.touched.cve && props.formik.errors.cve}  */
             required
             onBlur={props.formik.handleBlur}
              name='affectedVersion'

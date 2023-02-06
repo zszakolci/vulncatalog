@@ -1,9 +1,8 @@
 
-import LoadingSkeleton from './components/loadingSkeleton'
+//import LoadingSkeleton from '../components/loadingSkeleton'
 
 
 export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.
-  return (<h1>LOADING BAZMEG</h1>)
-
+  return <h1>Loading </h1>
 }

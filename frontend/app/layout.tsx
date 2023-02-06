@@ -18,8 +18,7 @@ export default function RootLayout({
       <body>
         <div className={styles.layout}>
         <HeaderBar admin={false}/>
-        {children}
-  
+            {children}
         </div>
         </body>
     </html>
