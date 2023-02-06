@@ -43,7 +43,6 @@ const AffectedVersionSearch = (props) =>{
 
             onChange={handleOptionSelected}
             onBlur={props.formik.handleBlur} 
-
              renderInput={(params) => <TextField 
              {...params} 
              

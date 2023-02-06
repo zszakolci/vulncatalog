@@ -28,7 +28,6 @@ const CVESearch = (props) => {
             fetcher(path, ...args)
               .then(resolve)
               .catch(reject);
-            
           }, 400);
         })
       ); 
@@ -45,6 +44,7 @@ const CVESearch = (props) => {
   const handleChange = e => {
     const lowerCase = e.target.value.toLowerCase();
     setSearchTerm(lowerCase);
+
     lowerCase.length < 6 ? setFetchActive(false) : setFetchActive(true);
     error ?  setNoOptions(error.toString()) : setNoOptions(cveNotFound);
       
@@ -84,7 +84,9 @@ const handleOptionSelected = (_event, newValue) => {
                   );
                 }}
               disablePortal 
+
               /* inputValue={props.formik.values.cveSearch} */
+
               //value={props.formik.values.cveSearch}
               onChange={handleOptionSelected}
               sx={{width: '60%', backgroundColor: '#FFF'}}
@@ -92,13 +94,16 @@ const handleOptionSelected = (_event, newValue) => {
                 {...params} 
                 value={props.formik.values.cveSearch} 
                 error={props.formik.touched.cveSearch && Boolean(props.formik.errors.cveSearch)} 
+
                 onChange={(e)=>{handleChange(e) }} 
+
                 /* helperText={props.formik.touched.cve && props.formik.errors.cve}  */
                 onBlur={(e)=>{props.formik.handleBlur(e); handleBlur(e)}} 
                 name='cveSearch'
                 label='CVE'
                 required
                 className="combobox" 
+
                 placeholder="CVE ID" />} /> 
                 
                 }

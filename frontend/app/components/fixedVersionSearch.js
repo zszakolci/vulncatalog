@@ -34,7 +34,7 @@ const FixedVersionSearch = (props) =>{
                 }}
                 onChange={handleOptionSelected}
                 onBlur={props.formik.handleBlur} 
-        
+
              sx={{width: '60%',backgroundColor: '#FFF'}} options={versions} disablePortal renderInput={(params) => <TextField 
              {...params} 
             name='fixedVersion'
@@ -44,6 +44,7 @@ const FixedVersionSearch = (props) =>{
              placeholder='Fixed Version'
              onChange={props.formik.handleChange}
             value={props.formik.values.fixedVersion}
+
              />} /> </div>
         
      );
