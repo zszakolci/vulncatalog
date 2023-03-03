@@ -7,7 +7,8 @@ const theme = createTheme({
     mode: 'light',
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: '#F6FCFC',
+      main: '#0A175D',
+      light: '#0A175D'
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
@@ -21,7 +22,7 @@ const theme = createTheme({
     },
 
     active: {
-      main: '#0A175D ',
+      main: '#0A175D',
       light: '#0A175D'
     },
 
