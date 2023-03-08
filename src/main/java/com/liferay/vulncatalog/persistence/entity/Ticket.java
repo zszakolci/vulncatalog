@@ -1,62 +1,74 @@
 package com.liferay.vulncatalog.persistence.entity;
 
+import com.liferay.vulncatalog.persistence.entity.Version;
+import com.liferay.vulncatalog.persistence.entity.Vulnerability;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Ticket {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
-	@Column(name = "ticketId")
-	private String ticketId;
+	@Column(name = "id")
+	private String id;
 	@Column(name = "lpeId")
 	private String lpeId;
 	@Column(name = "lsvId")
 	private String lsvId;
-	@Column(name = "vulnerabilityId")
-	private String vulnerabilityId;
 	@Column(name = "library")
 	private String library;
-	@Column(name = "affectedVersion")
-	private String affectedVersion;
-	@Column(name = "fixedVersion")
-	private String fixedVersion;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+		name = "ticket_affectedversion",
+		joinColumns = @JoinColumn(name = "ticketId"),
+		inverseJoinColumns = @JoinColumn(name = "affectedVersion"))
+	private List<Version> affectedVersions;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+		name = "ticket_fixedversion",
+		joinColumns = @JoinColumn(name = "ticketId"), 
+		inverseJoinColumns = @JoinColumn(name = "fixedVersion"))
+	private List<Version> fixedVersions;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+		name = "ticket_vulnerability",
+		joinColumns = @JoinColumn(name = "ticketId"), 
+		inverseJoinColumns = @JoinColumn(name = "vulnerabilityId"))
+	private List<Vulnerability> vulnerabilities;
 
 	public Ticket() {
 	}
 
-	public Ticket(String ticketId, String lpeId, String lsvId,
-		String vulnerabilityId, String library, String affectedVersion,
-		String fixedVersion) {
+	public Ticket(String id, String lpeId, String lsvId, String library,
+		List<Vulnerability> vulnerabilities, List<Version> affectedVersions,
+		List<Version> fixedVersions) {
 
-		this.ticketId = ticketId;
+		this.id = id;
 		this.lpeId = lpeId;
 		this.lsvId = lsvId;
-		this.vulnerabilityId = vulnerabilityId;
 		this.library = library;
-		this.affectedVersion = affectedVersion;
-		this.fixedVersion = fixedVersion;
+		this.vulnerabilities = vulnerabilities;
+		this.affectedVersions = affectedVersions;
+		this.fixedVersions = fixedVersions;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getTicketId() {
-		return ticketId;
-	}
-
-	public void setTicketId(String ticketId) {
-		this.ticketId = ticketId;
 	}
 
 	public String getLpeId() {
@@ -75,14 +87,6 @@ public class Ticket {
 		this.lsvId = lsvId;
 	}
 
-	public String getVulnerabilityId() {
-		return vulnerabilityId;
-	}
-
-	public void setVulnerabilityId(String vulnerabilityId) {
-		this.vulnerabilityId = vulnerabilityId;
-	}
-
 	public String getLibrary() {
 		return library;
 	}
@@ -91,20 +95,28 @@ public class Ticket {
 		this.library = library;
 	}
 
-	public String getAffectedVersion() {
-		return affectedVersion;
+	public List<Version> getAffectedVersions() {
+		return affectedVersions;
 	}
 
-	public void setAffectedVersion(String affectedVersion) {
-		this.affectedVersion = affectedVersion;
+	public void setAffectedVersions(List<Version> affectedVersions) {
+		this.affectedVersions = affectedVersions;
 	}
 
-	public String getFixedVersion() {
-		return fixedVersion;
+	public List<Version> getFixedVersions() {
+		return fixedVersions;
 	}
 
-	public void setFixedVersion(String fixedVersion) {
-		this.fixedVersion = fixedVersion;
+	public void setFixedVersions(List<Version> fixedVersions) {
+		this.fixedVersions = fixedVersions;
+	}
+
+	public List<Vulnerability> getVulnerabilities() {
+		return vulnerabilities;
+	}
+
+	public void setVulnerabilities(List<Vulnerability> vulnerabilities) {
+		this.vulnerabilities = vulnerabilities;
 	}
 
 }
