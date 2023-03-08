@@ -1,7 +1,11 @@
 package com.liferay.vulncatalog.restservice;
 
 import com.liferay.vulncatalog.persistence.entity.Ticket;
+import com.liferay.vulncatalog.persistence.entity.Version;
+import com.liferay.vulncatalog.persistence.entity.Vulnerability;
 import com.liferay.vulncatalog.persistence.repositories.TicketRepository;
+import com.liferay.vulncatalog.persistence.repositories.VersionRepository;
+import com.liferay.vulncatalog.persistence.repositories.VulnerabilityRepository;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,19 +26,34 @@ public class TicketController {
 	@Autowired
 	TicketRepository ticketRepository;
 
+	@Autowired
+	VersionRepository versionRepository;
+
+	@Autowired
+	VulnerabilityRepository vulnerabilityRepository;
+
 	@GetMapping("/add")
-	public void add(@RequestParam(value = "ticketId") String ticketId,
+	public void add(@RequestParam(value = "id") String id,
 		@RequestParam(value = "lpeId") String lpeId,
 		@RequestParam(value = "lsvId") String lsvId,
-		@RequestParam(value = "vulnerabilityId") String vulnerabilityId,
 		@RequestParam(value = "library") String library,
-		@RequestParam(value = "affectedVersion") String affectedVersion,
-		@RequestParam(value = "fixedVersion") String fixedVersion) {
+		@RequestParam(value = "vulnerabilityIds") List<String> vulnerabilityIds,
+		@RequestParam(value = "affectedVersions") List<String> affectedVersions,
+		@RequestParam(value = "fixedVersions") List<String> fixedVersions) {
 
-		Ticket ticket = new Ticket(ticketId, lpeId, lsvId, vulnerabilityId, library, affectedVersion, fixedVersion);
+		List<Vulnerability> vulnerabilities =
+			vulnerabilityRepository.findByIdIn(vulnerabilityIds);
+
+		List<Version> affected =
+			versionRepository.findByIdIn(affectedVersions);
+
+		List<Version> fixed =
+			versionRepository.findByIdIn(affectedVersions);
+
+		Ticket ticket = new Ticket(id, lpeId, lsvId, library, vulnerabilities,
+			affected, fixed);
 
 		ticketRepository.save(ticket);
-		//System.out.print(ticketId + " " + lpeId);
 	}
 
 	@GetMapping("/get-all")
@@ -51,9 +70,9 @@ public class TicketController {
 		}
 
 		List<Ticket> tickets =
-			ticketRepository.findByTicketIdContainingIgnoreCase(keyword);
+			ticketRepository.findByIdContainingIgnoreCase(keyword);
 
-		return tickets.stream().map(ticket -> ticket.getTicketId()).collect(
+		return tickets.stream().map(ticket -> ticket.getId()).collect(
 			Collectors.toList());
 	}
 }

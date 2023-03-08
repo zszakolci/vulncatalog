@@ -1,6 +1,5 @@
 package com.liferay.vulncatalog.restservice;
 
-import com.liferay.vulncatalog.persistence.entity.Ticket;
 import com.liferay.vulncatalog.persistence.entity.Version;
 import com.liferay.vulncatalog.persistence.repositories.VersionRepository;
 
