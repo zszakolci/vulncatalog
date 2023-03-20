@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, Suspense } from 'react';
 import dynamic from 'next/dynamic';
-//import SearchList from './SearchList';
 import styles from './Search.module.css';
 import useSWR from 'swr';
 import LoadingSkeleton from './loadingSkeleton';
@@ -9,7 +8,6 @@ import { Alert } from '@mui/material';
 import Image from 'next/image';
 import dog from '../../public/dog.png';
 import notFound from '../../public/searching.jpeg';
-//import { loadEnvConfig } from '@next/env'
 
 const SearchList = dynamic(() => import('./SearchList'), {
   loading: () => <LoadingSkeleton />
