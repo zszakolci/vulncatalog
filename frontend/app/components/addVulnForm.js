@@ -66,6 +66,7 @@ function AddVulnForm() {
           }
           setSubmitError(false);
           formik.resetForm();
+          setCVEFieldValue("");
           descriptionInput.current.value = '';
           setIsAlertVisible(true);
           setTimeout(() => {
@@ -133,6 +134,7 @@ function AddVulnForm() {
 
         <div className={styles.listItem}>
           <textarea
+            maxlength="255"
             ref={descriptionInput}
             className="textArea"
             placeholder="DESCRIPTION"

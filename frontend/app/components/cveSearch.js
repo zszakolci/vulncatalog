@@ -108,7 +108,7 @@ const CVESearch = React.forwardRef((props, ref) =>
   const descriptionInput = useRef(null);
   const formRef = useRef(null);
   const cveInputName = 'cve';
-
+  const [errorMessage, setErrorMessage] = useState("");
   const [submitError, setSubmitError] = useState(false);
   const { loading } = usePromiseTracker();
   const [isAlertVisible, setIsAlertVisible] = React.useState(false);
@@ -168,19 +168,20 @@ const CVESearch = React.forwardRef((props, ref) =>
             return Promise.reject(error);
           }
           setSubmitError(false);
-          //cveFormik.resetForm();
-
+          cveFormik.resetForm();
           descriptionInput.current.value = '';
           setIsAlertVisible(true);
           let newSelections= selectedValue;
           newSelections.push(searchTerm);
           setSelectedValue(newSelections);
+          props.formik.setFieldValue('cveSearch',newSelections);
           setTimeout(() => {
             setIsAlertVisible(false);
             handleClose();
-          }, 1000);
+          }, 500);
         })
         .catch((error) => {
+          console.error(error);
           setErrorMessage(error.toString());
           setSubmitError(true);
         })
@@ -255,15 +256,15 @@ const CVESearch = React.forwardRef((props, ref) =>
           />
         )}
       />
-      <Dialog open={dialogOpen} onClose={handleClose}>
-        <form ref={formRef} className={vulnFormStyles.addVulnForm}>
+      <Dialog open={dialogOpen} onClose={handleClose} sx={{backgroundColor: 'white'}}>
+        <form ref={formRef} style={{backgroundColor: 'white',  boxShadow: '3'}} >
           <DialogTitle>Add a new Vulnerability</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText sx={{paddingBottom: '1em'}}>
               Provide the CVE ID, corresponding URL, and a short description!
             </DialogContentText>
 
-            <Box className="box">
+            <Box className={"box " + vulnFormStyles.addVulnForm} >
               <div className={vulnFormStyles.listItem}>
                 {cveFormik.touched.cve && cveFormik.errors.cve ? (
                   <Alert
@@ -322,6 +323,7 @@ const CVESearch = React.forwardRef((props, ref) =>
 
               <div className={vulnFormStyles.listItem}>
                 <textarea
+                  maxlength="255"
                   ref={descriptionInput}
                   className="textArea"
                   placeholder="DESCRIPTION"
@@ -330,9 +332,7 @@ const CVESearch = React.forwardRef((props, ref) =>
 
               {loading && <label className="errorMessage">Loading...</label>}
             </Box>
-          </DialogContent>
-          <DialogActions>
-            <div className={vulnFormStyles.buttonContainer}>
+            <DialogActions className={vulnFormStyles.buttonContainer} sx={{display: 'flex',spacing: '5', justifyContent: 'flex-start', textAlign: 'start'}} >
               <div>
                 <Button
                   disabled={!cveFormik.isValid || cveFormik.isSubmitting}
@@ -344,6 +344,7 @@ const CVESearch = React.forwardRef((props, ref) =>
                   Add
                 </Button>{' '}
                 <Button onClick={handleClose}>Cancel</Button>
+             
               </div>
               {submitError && (
                 <div>
@@ -361,7 +362,7 @@ const CVESearch = React.forwardRef((props, ref) =>
                 <div>
                   {' '}
                   <Alert
-                    className={styles.alert}
+                    className={vulnFormStyles.alert}
                     variant="outlined"
                     severity="success"
                   >
@@ -369,8 +370,9 @@ const CVESearch = React.forwardRef((props, ref) =>
                   </Alert>
                 </div>
               )}
-            </div>
           </DialogActions>
+          </DialogContent>
+          
         </form>
       </Dialog>
     </div>

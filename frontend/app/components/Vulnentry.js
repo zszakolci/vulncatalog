@@ -32,7 +32,7 @@ function Vulnentry({ vulnentry }) {
   const vulnList = vulnentry.vulnerabilities.map((cve) => (
     <CVEEntry key={cve.id} cve={cve} />
   ));
-  const [rowOpened, setRowOpened] = useState(false);
+  const [rowOpened, setRowOpened] = useState(true);
   return (
     <Grow in={true}>
       <Box>

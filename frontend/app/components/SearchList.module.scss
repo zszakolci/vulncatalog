@@ -16,7 +16,7 @@
       display: flex;
       justify-content: space-between;
       border-radius: 3px;
-      padding: 15px 30px;
+      padding: 20px 30px;
       margin-bottom: 20px;
       background-color: #F6FCFC;
 
@@ -26,7 +26,7 @@
       display: flex;
       justify-content: space-between;
       border-radius: 3px;
-      padding: 0px 0px;
+      padding: 5px 15px;
       //margin-top: 5px;
       margin-bottom: 20px;
       background-color: #fbf3de;
@@ -44,12 +44,14 @@
       box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.2);
       
       .vulncol{
-          flex-basis: 20%;
+          flex-basis: 15%;
       }
-
-      .infocol{
-        flex-basis: 80%;
+      .descCol{
+        flex-basis:85%;
       }
+      /* .infocol{
+        flex-basis: 5%;
+      } */
       .link{
         text-decoration: none;
         color: #1131a5;
@@ -82,7 +84,10 @@
     .vuln{
         
     }
-    .col1,.col2,.col3,.col4,.col5,.col6,.vulncol,.infocol{
+    .vulncol,.infocol,.descCol{
+      margin: auto;
+    }
+    .col1,.col2,.col3,.col4,.col5,.col6{
       margin: auto;
       text-align: center;
     }

@@ -51,9 +51,12 @@ function CVEEntry({ cve }) {
           {cve.id}
         </a>
       </div>
-      <div className={styles.infocol} data-label="Description">
-        {description(cve.description)}
+      <div className={styles.descCol} >
+        {cve.description}
       </div>
+      {/* <div className={styles.infocol} data-label="Description">
+        {description(cve.description)}
+      </div> */}
     </li>
   );
 }
