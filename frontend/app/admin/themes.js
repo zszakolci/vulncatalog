@@ -34,57 +34,57 @@ const theme = createTheme({
       light: '#ffa726',
       main: '#f57c00',
       dark: '#ef6c00',
-      contrastText: 'rgba(0, 0, 0, 0.87)',
+      contrastText: 'rgba(0, 0, 0, 0.87)'
     },
     common: {
-        black: '#000',
-        white: '#fff'
+      black: '#000',
+      white: '#fff'
     },
 
-    error:{
-        main: '#d32f2f',
-        light: '#ef5350',
-        dark: '#c62828',
-        contrastText: '#fff'
+    error: {
+      main: '#d32f2f',
+      light: '#ef5350',
+      dark: '#c62828',
+      contrastText: '#fff'
     },
     warning: {
-        main: '#ed6c02',
-        light: '#ff9800',
-        dark: '#e65100',
-        contrastText: '#fff'
+      main: '#ed6c02',
+      light: '#ff9800',
+      dark: '#e65100',
+      contrastText: '#fff'
     },
-    
+
     info: {
-        main: '#0288d1',
-        light: '#03a9f4',
-        dark:  '#01579b',
-        contrastText: '#fff'
+      main: '#0288d1',
+      light: '#03a9f4',
+      dark: '#01579b',
+      contrastText: '#fff'
     },
     success: {
-        main: '#2e7d32',
-        light: '#4caf50',
-        dark: '#1b5e20',
-        contrastText: '#fff'
-},
+      main: '#2e7d32',
+      light: '#4caf50',
+      dark: '#1b5e20',
+      contrastText: '#fff'
+    },
     text: {
-        primary: 'rgba(0, 0, 0, 0.87)',
-        secondary: 'rgba(0, 0, 0, 0.6)',
-        disabled: 'rgba(0, 0, 0, 0.38)'
-},
+      primary: 'rgba(0, 0, 0, 0.87)',
+      secondary: 'rgba(0, 0, 0, 0.6)',
+      disabled: 'rgba(0, 0, 0, 0.38)'
+    },
     background: {
-        paper: '#F6FCFC',
-        default: '#FFF'
+      paper: '#F6FCFC',
+      default: '#FFF'
     },
     unstable_sxConfig: {
-        bgcolor: {
-            themeKey: 'palette',
-            transform: 'f if()',
-            cssProperty: 'backgroundColor'
-        },
-        backgroundColor: {
-            themeKey: 'palette',
-            transform: 'f i()'
-        }
+      bgcolor: {
+        themeKey: 'palette',
+        transform: 'f if()',
+        cssProperty: 'backgroundColor'
+      },
+      backgroundColor: {
+        themeKey: 'palette',
+        transform: 'f i()'
+      }
     },
     // Used by `getContrastText()` to maximize the contrast between
     // the background and the text.
@@ -92,7 +92,7 @@ const theme = createTheme({
     // Used by the functions below to shift a color's luminance by approximately
     // two indexes within its tonal palette.
     // E.g., shift from Red 500 to Red 300 or Red 700.
-    tonalOffset: 0.2,
+    tonalOffset: 0.2
   },
   components: {
     MuiAutocomplete: {
@@ -105,14 +105,14 @@ const theme = createTheme({
           popper: {
             backgroundColor: 'black'
           },
-          listbox:{
+          listbox: {
             backgroundColor: 'pink'
           },
           input: {
             borderRadius: '10px',
             border: '4px'
           },
-          paper:{
+          paper: {
             backgroundColor: 'black'
           },
           option: {
@@ -121,7 +121,7 @@ const theme = createTheme({
           MuiTextField: {
             backgroundColor: 'black'
           }
-          
+
           /* borderRadius: '30%', */
         }
       }
@@ -141,7 +141,6 @@ const theme = createTheme({
           backgroundColor: '#F6FCFC',
           bgcolor: '#F6FCFC',
           border: 'border: 1px solid #575756'
-          
         },
         sx: {
           backgroundColor: '#F6FCFC',

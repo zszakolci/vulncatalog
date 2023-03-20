@@ -1,65 +1,93 @@
-"use client";
+'use client';
 
-import React, {useContext, useEffect} from 'react';
-import { Alert, Autocomplete, Button, TextField } from "@mui/material";
-import styles from './addTicketForm.module.css'
-import useSWR from 'swr'
+import React, { useContext, useEffect, useState, useImperativeHandle } from 'react';
+import { Alert, Autocomplete, Button, TextField } from '@mui/material';
+import styles from './addTicketForm.module.css';
+import useSWR from 'swr';
 import { ErrorContext } from './addTicketForm';
 
-const AffectedVersionSearch = (props) =>{
-    const [err, setErr] = useContext(ErrorContext);
-    const fetcher = (...args) => fetch(...args).then(res => res.json());
-    const {data,error,isLoading} = useSWR( 'http://localhost:8080/version/get-all',fetcher ); 
-    const returned = data ? data : [];
-    const versions = error ? [error.toString()] : returned;
-    useEffect(() => {
-        setErr(error);
-      }, )
+const AffectedVersionSearch = React.forwardRef((props, ref) => {
+  const [selectedValues,setSelectedValues] = useState([]);
+  const [err, setErr] = useContext(ErrorContext);
+  const [textInput, setTextInput] = useState("");
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data, error, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_REST_HOST}/version/get-all`,
+    fetcher
+  );
+  const returned = data ? data : [];
+  const versions = error ? [error.toString()] : returned;
+  useEffect(() => {
+    setErr(error);
+  });
 
-      const handleOptionSelected = (_event, newValue) => {
-        props.formik.setFieldValue('affectedVersion', newValue);
-      };
+  useImperativeHandle(ref, () => ({
+    setSelectedValues
+  }));
 
-    return(
-      
-        <div className={styles.comboBoxContainer}>
-              {props.formik.touched.affectedVersion && props.formik.errors.affectedVersion ? (
-            <Alert sx={{border: '0px',fontSize: '14px',  padding: '0px'}}  variant="outlined" severity='warning'>{props.formik.errors.affectedVersion}</Alert>
-   ) : null}
-             <Autocomplete  
-             
-             options={versions} 
-             disablePortal 
-            autoComplete
-            autoSelect
-            renderOption={(props, option) => {
-                return (
-                  <li {...props} key={option}>
-                    {option}
-                  </li>
-                  );
-                }}
-            sx={{width: '60%',backgroundColor: '#FFF'}}
+  const handleOptionSelected = (_event, newValue) => {
+    props.formik.setFieldValue('affectedVersion', newValue);
+    setSelectedValues(newValue);
+  };
 
-            onChange={handleOptionSelected}
-            onBlur={props.formik.handleBlur} 
+  const handleTextInputChanged = (e) =>
+  {
+    setTextInput(e.target.value);
+  }
 
-             renderInput={(params) => <TextField 
-             {...params} 
-             
-            error={props.formik.touched.affectedVersion && Boolean(props.formik.errors.affectedVersion)} 
+  return (
+    <div className={styles.comboBoxContainer}>
+      {props.formik.touched.affectedVersion &&
+      props.formik.errors.affectedVersion ? (
+        <Alert
+          sx={{ border: '0px', fontSize: '14px', padding: '0px' }}
+          variant="outlined"
+          severity="warning"
+        >
+          {props.formik.errors.affectedVersion}
+        </Alert>
+      ) : null}
+      <Autocomplete
+        options={versions}
+        disablePortal
+        filterSelectedOptions
+        autoComplete
+        autoHighlight
+        //ref={ref}
+        multiple
+        renderOption={(props, option) => {
+          return (
+            <li {...props} key={option}>
+              {option}
+            </li>
+          );
+        }}
+        sx={{ width: '60%', backgroundColor: '#FFF' }}
+        value={selectedValues}
+        onChange={handleOptionSelected}
+        blurOnSelect="touch"
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            error={
+              props.formik.touched.affectedVersion &&
+              Boolean(props.formik.errors.affectedVersion)
+            }
             required
+            name="affectedVersion"
+            //onChange={handleTextInputChanged}
+            //value={textInput}
             onBlur={props.formik.handleBlur}
-             name='affectedVersion'
-             onChange={props.formik.handleChange}
-             value={props.formik.values.affectedVersion}
-             className="combobox" 
-             label='Affects Version' 
-             placeholder='Affects version' 
-           
-             />} /> </div>
-        
-     );
-}
+            //value={props.formik.values.affectedVersion}
+            className="combobox"
+            label="Affects Version"
+            placeholder="Affects version"
+          />
+        )}
+      />{' '}
+    </div>
+  );
+});
 
+AffectedVersionSearch.displayName = 'AffectedVersionSearch';
 export default AffectedVersionSearch;

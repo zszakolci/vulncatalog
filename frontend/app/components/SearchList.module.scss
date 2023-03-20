@@ -18,8 +18,18 @@
       border-radius: 3px;
       padding: 15px 30px;
       margin-bottom: 20px;
-      
+      background-color: #F6FCFC;
 
+    }
+
+    .vulnResultRowCVE{
+      display: flex;
+      justify-content: space-between;
+      border-radius: 3px;
+      padding: 0px 0px;
+      //margin-top: 5px;
+      margin-bottom: 20px;
+      background-color: #fbf3de;
     }
     .vulnTableHeader {
       background-color: #95A5A6;
@@ -29,10 +39,17 @@
       letter-spacing: 0.03em;
       box-shadow: 0px 0px 9px 0px rgba(0,0,0,1);
     }
-    .vulnResultRow {
-      background-color: #F6FCFC;
+    .vulnResultRow, .vulnResultRowCVE {
+      
       box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.2);
       
+      .vulncol{
+          flex-basis: 20%;
+      }
+
+      .infocol{
+        flex-basis: 80%;
+      }
       .link{
         text-decoration: none;
         color: #1131a5;
@@ -45,43 +62,47 @@
           font-size: 17px;
       }
     }
+    .vulnResultRowCVE:hover, .vulnResultRow:hover{
+      transition: 0.3s;
+      //font-size: 18px;
+      box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.8);
+    }
 
+    .vulnResultRowCVE:hover{
+      background-color: #e6ddc6;
+    }
     .vulnResultRow:hover{
       background-color: #DBE9E9;
       transition: 0.3s;
       //font-size: 18px;
       box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.8);
+      cursor: pointer;
     } 
 
     .vuln{
         
     }
-    .col1,.col2,.col3,.col4,.col5,.col6,.col7,.col8{
+    .col1,.col2,.col3,.col4,.col5,.col6,.vulncol,.infocol{
       margin: auto;
+      text-align: center;
     }
     .col1 {
-      flex-basis: 18%; 
+      flex-basis: 10%; 
     }
     .col2 {
-      flex-basis: 15%;
+      flex-basis: 10%;
     }
     .col3 {
-      flex-basis: 15%;
+      flex-basis: 10%;
     }
     .col4 {
-      flex-basis: 15%;
+      flex-basis: 20%;
     }
     .col5 {
-      flex-basis: 15%;
+      flex-basis: 25%;
     }
     .col6 {
-      flex-basis: 10%;
-    }
-    .col7 {
-      flex-basis: 10%;
-    }
-    .col8 {
-      flex-basis: 2%;
+      flex-basis: 25%;
     }
     
     @media all and (max-width: 767px) {
