@@ -24,12 +24,16 @@ const CVESearch = React.forwardRef((props, ref) =>
   const [err, setErr] = useContext(ErrorContext);
   const [noOptions, setNoOptions] = useState('Start to type CVE...');
   //const [textValue, setTextValue] = useState("");
-  const [selectedValue, setSelectedValue] = useState([]);
+  const [selectedValue, setSelectedValue] = useState(props.selectedValue);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useImperativeHandle(ref, () => ({
     setSelectedValue
   }));
+
+/*   useImperativeHandle(ref, () => ({
+    setComboSize
+  })); */
 
   const handleClose = () => {
     setDialogOpen(false);
@@ -207,7 +211,7 @@ const CVESearch = React.forwardRef((props, ref) =>
         autoComplete
         filterSelectedOptions
         autoSelect
-        multiple
+        multiple={props.multiple}
         autoHighlight
         blurOnSelect="touch"
         options={filteredVulnerabilities}

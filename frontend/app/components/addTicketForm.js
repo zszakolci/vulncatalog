@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Button } from '@mui/material';
+import { Alert, AlertTitle, Button, Paper } from '@mui/material';
 import styles from './addTicketForm.module.css';
 import CVESearch from './cveSearch';
 //import LibrarySearch from './librarySearch';
@@ -117,14 +117,14 @@ function AddTicketForm() {
 
   return (
     <ErrorContext.Provider value={[err, setErr]}>
-      <div className="box">
+      <Paper elevation={10} sx={{ padding: "30px"}}>
         {err && (
           <Alert variant="outlined" severity="error">
             <strong>{err ? err.toString() : ''}</strong>
           </Alert>
         )}
         <form className="addTicketForm">
-          <CVESearch formik={formik} ref={cveSearchRef}/>
+          <CVESearch selectedValue={[]} multiple={true} formik={formik} ref={cveSearchRef}/>
           <div className={styles.listItem}>
             {formik.touched.lpe && formik.errors.lpe ? (
               <Alert
@@ -243,7 +243,7 @@ function AddTicketForm() {
             )}
           </div>
         </form>
-      </div>
+      </Paper>
     </ErrorContext.Provider>
   );
 }

@@ -3,12 +3,76 @@
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 10px;
-    padding-right: 10px;
+/*     padding-left: 10px;
+    padding-right: 10px; */
   }
   
+  .link{
+    text-decoration: none;
+    color: #1131a5;
+    font-weight: bold;
+  }
 
+  .link:hover{
+      color:#9d0d85;
+      transition: 0.3s;
+      font-size: 17px;
+  }
   
+.vulncol{
+  flex-basis: 16%;
+}
+.descCol{
+  flex-basis:75%;
+}
+
+.delAssocCol{
+  flex-basis:3%;
+}
+
+.editCol{
+  flex-basis:3%;
+}
+
+
+  .vulncol,.infocol,.descCol, .delCol, .editCol, .delAssocCol{
+     margin: auto;
+  }
+  .col1,.col2,.col3,.col4,.col5,.col6,.col7,.col8,.col9{
+    margin: auto;
+    text-align: center;
+  }
+  .col1 {
+    flex-basis: 10%; 
+  }
+  .col2 {
+    flex-basis: 10%;
+  }
+  .col3 {
+    flex-basis: 10%;
+  }
+  .col4 {
+    flex-basis: 15%;
+  }
+  .col5 {
+    flex-basis: 23%;
+  }
+  .col6 {
+    flex-basis: 23%;
+  }
+
+  .col7 {
+    flex-basis: 3%;
+  }
+
+  .col8 {
+    flex-basis: 3%;
+  }
+
+  .col9{
+    flex-basis: 3%;
+  }
+
   .vulnTable {
 
     .vulnTableHeader, .vulnResultRow{
@@ -43,12 +107,7 @@
       
       box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.2);
       
-      .vulncol{
-          flex-basis: 15%;
-      }
-      .descCol{
-        flex-basis:85%;
-      }
+   
       /* .infocol{
         flex-basis: 5%;
       } */
@@ -78,37 +137,13 @@
       transition: 0.3s;
       //font-size: 18px;
       box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.8);
-      cursor: pointer;
+      cursor: s-resize;
     } 
 
     .vuln{
         
     }
-    .vulncol,.infocol,.descCol{
-      margin: auto;
-    }
-    .col1,.col2,.col3,.col4,.col5,.col6{
-      margin: auto;
-      text-align: center;
-    }
-    .col1 {
-      flex-basis: 10%; 
-    }
-    .col2 {
-      flex-basis: 10%;
-    }
-    .col3 {
-      flex-basis: 10%;
-    }
-    .col4 {
-      flex-basis: 20%;
-    }
-    .col5 {
-      flex-basis: 25%;
-    }
-    .col6 {
-      flex-basis: 25%;
-    }
+    
     
     @media all and (max-width: 767px) {
       .vulnTableHeader {

@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import styles from './Search.module.css';
 import useSWR from 'swr';
 import LoadingSkeleton from './loadingSkeleton';
-import { Alert } from '@mui/material';
+import { Alert, Fade, Paper } from '@mui/material';
 import Image from 'next/image';
 import dog from '../../public/dog.png';
 import notFound from '../../public/searching.jpeg';
@@ -46,7 +46,12 @@ function Search() {
             {isValidating ? (
               <LoadingSkeleton />
             ) : data ? (
+              <Fade in={true} timeout={300}>
+          <Paper elevation={10} sx={{maxWidth: "1200px", maxHeight: "500px", overflowY: "auto", margin: "auto", marginTop: "40px", padding: "40px"}}>
               <SearchList filteredCatalog={data} />
+          </Paper>
+        </Fade>
+              
             ) : (
               <section className={styles.notFound}>
                 <Alert

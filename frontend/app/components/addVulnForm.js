@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { Alert, Button, Grid } from '@mui/material';
+import { Alert, Button, Grid, Paper } from '@mui/material';
 import styles from './addVulnForm.module.css';
 import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
 import { Box } from '@mui/system';
@@ -80,7 +80,7 @@ function AddVulnForm() {
     );
   };
   return (
-    <Box className="box">
+    <Paper elevation={10} sx={{backgroundColor: "#F6FCFC", padding: "30px"}}>
       <form ref={formRef} className={styles.addVulnForm}>
         <div className={styles.listItem}>
           {formik.touched.cve && formik.errors.cve ? (
@@ -179,7 +179,7 @@ function AddVulnForm() {
         </div>
         {loading && <label className="errorMessage">Loading...</label>}
       </form>
-    </Box>
+    </Paper>
   );
 }
 
